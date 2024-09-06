@@ -11,6 +11,21 @@ public class ChessPosition {
     public ChessPosition(int row, int col) {
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     /**
      * @return which row this position is in
      * 1 codes for the bottom row
