@@ -20,12 +20,16 @@ public class BishopMoves implements PieceMoves {
         return moves;
     }
     private void addMovesToArray(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, int rowDir, int colDir) {
-        int boardWidthLen = 8;
+        int boardWidthLen = 7;
         int row = startPosition.getRow();
         int col = startPosition.getColumn();
-        while (row >= 0 && row < boardWidthLen && col >= 0 && col < boardWidthLen) {
+        while (true) {
             row += rowDir;
             col += colDir;
+
+            if (col < 0 || col >= boardWidthLen || row < 0 || row >= boardWidthLen) {
+                break;
+            }
 
             ChessPosition newPosition = new ChessPosition(row, col);
 

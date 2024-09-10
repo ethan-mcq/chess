@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -26,7 +27,7 @@ public class ChessPiece {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(pieceColor, type);
     }
 
     @Override
