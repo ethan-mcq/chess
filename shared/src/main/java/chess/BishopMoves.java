@@ -7,8 +7,40 @@ public class BishopMoves implements PieceMoves {
     @Override
     public Collection<ChessMove> calculateMoves(ChessBoard board, ChessPosition position) {
         Collection<ChessMove> moves = new ArrayList<>();
-        // Implement here
+        int[][] directions = {
+                {1, 1}, // Up right
+                {1, -1}, // Up left
+                {-1, 1}, // Down right
+                {-1, -1} // Down left
+        };
+        for (int[] direction : directions) {
+            addMovesToArray(board, position, moves, direction[0], direction[1]);
+        }
 
         return moves;
+    }
+    private void addMovesToArray(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, int rowDir, int colDir) {
+        int boardWidthLen = 8;
+        int row = startPosition.getRow();
+        int col = startPosition.getColumn();
+        while (row >= 0 && row < boardWidthLen && col >= 0 && col < boardWidthLen) {
+            row += rowDir;
+            col += colDir;
+
+            ChessPosition newPosition = new ChessPosition(row, col);
+
+            // this is checking to see if there is a piece at the position that it can move to
+            ChessPiece piece = board.getPiece(newPosition);
+
+            // if after checking the spot == null we can move on and add that to the list of possible moves
+            if (piece == null) {
+                moves.add(new ChessMove(startPosition, newPosition, null)); //promotion piece is not implemented right now I dont think
+            } else { // if piece != null, we need to see if it is on our team or the other. if its on the other team we can capture it and so its a valid move
+                if (piece.getTeamColor() != board.getPiece(startPosition).getTeamColor()) {
+                    moves.add(new ChessMove(startPosition, newPosition, null));
+                }
+                break;
+            }
+        }
     }
 }
