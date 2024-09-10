@@ -20,19 +20,18 @@ public class BishopMoves implements PieceMoves {
         return moves;
     }
     private void addMovesToArray(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, int rowDir, int colDir) {
-        int boardWidthLen = 7;
+        int boardWidthLen = 9;
         int row = startPosition.getRow();
         int col = startPosition.getColumn();
         while (true) {
             row += rowDir;
             col += colDir;
 
-            if (col < 0 || col >= boardWidthLen || row < 0 || row >= boardWidthLen) {
+            if (col <= 0 || col >= boardWidthLen || row <= 0 || row >= boardWidthLen) {
                 break;
             }
 
             ChessPosition newPosition = new ChessPosition(row, col);
-
             // this is checking to see if there is a piece at the position that it can move to
             ChessPiece piece = board.getPiece(newPosition);
 
