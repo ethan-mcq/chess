@@ -20,17 +20,17 @@ public class ChessPiece {
         this.type = type;
     }
 
-    @Override
+    @Override //We wont need this until we are printing piece names to the board
     public String toString() {
         return super.toString();
     }
 
-    @Override
+    @Override //establish the type available
     public int hashCode() {
         return Objects.hash(pieceColor, type);
     }
 
-    @Override
+    @Override//We wont need this until we are printing piece names to the board
     public boolean equals(Object obj) {
         return super.equals(obj);
     }

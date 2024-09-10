@@ -50,13 +50,17 @@ public class ChessMove {
         return endPosition.toString();
     }
 
-    @Override
+    @Override //establish the type available
     public int hashCode() {
         return Objects.hash(startPosition, endPosition, promotionPiece);
     }
 
-    @Override
+    @Override // This is to make sure that all objects are of the same type and value
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ChessMove that = (ChessMove) obj;
+        return startPosition.equals(that.startPosition) && endPosition.equals(that.endPosition) &&
+                Objects.equals(promotionPiece, that.promotionPiece);
     }
 }

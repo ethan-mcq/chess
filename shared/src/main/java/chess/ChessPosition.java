@@ -39,13 +39,16 @@ public class ChessPosition {
         return "(" + row + ", " + col + ")";
     }
 
-    @Override
+    @Override //establish the type available
     public int hashCode() {
         return Objects.hash(row, col);
     }
 
-    @Override
+    @Override // This is to make sure that all objects are of the same type and value
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ChessPosition that = (ChessPosition) obj;
+        return row == that.row && col == that.col;
     }
 }

@@ -9,7 +9,7 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessBoard {
-    private ChessPiece[][] squares = new ChessPiece[9][9];
+    private final ChessPiece[][] squares = new ChessPiece[9][9];
     public ChessBoard() {
         
     }
@@ -35,17 +35,17 @@ public class ChessBoard {
         return squares[position.getRow()][position.getColumn()];
     }
 
-    @Override
+    @Override //We wont need this until we are needing to print the board to the screen
     public String toString() {
         return super.toString();
     }
 
-    @Override
+    @Override //establish the type available
     public int hashCode() {
         return Objects.hash(squares);
     }
 
-    @Override
+    @Override //We wont need this until we are needing to print the board to the screen
     public boolean equals(Object obj) {
         return super.equals(obj);
     }

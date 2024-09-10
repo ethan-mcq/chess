@@ -20,13 +20,14 @@ public class BishopMoves implements PieceMoves {
         return moves;
     }
     private void addMovesToArray(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, int rowDir, int colDir) {
-        int boardWidthLen = 9;
+        int boardWidthLen = 9; // i made the board 9/9 because I dont want to deal with the math to keep the size within the useable array size
         int row = startPosition.getRow();
         int col = startPosition.getColumn();
         while (true) {
             row += rowDir;
             col += colDir;
 
+            //checking to see if the position is outside the acutal usable size of the board
             if (col <= 0 || col >= boardWidthLen || row <= 0 || row >= boardWidthLen) {
                 break;
             }
