@@ -12,6 +12,7 @@ public class MoveImplementation {
     static {
         //Calculate possible Bishop moves if piece is BISHOP
         moveStrategies.put(ChessPiece.PieceType.BISHOP, new BishopMoves());
+        moveStrategies.put(ChessPiece.PieceType.KING, new KingMoves());
     }
 
     public static Collection<ChessMove> calculatePieceMoves(ChessPiece piece, ChessBoard board, ChessPosition position) {
