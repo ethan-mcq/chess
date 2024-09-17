@@ -15,6 +15,7 @@ public class MoveImplementation {
         moveStrategies.put(ChessPiece.PieceType.KING, new KingMoves());
         moveStrategies.put(ChessPiece.PieceType.KNIGHT, new KnightMoves());
         moveStrategies.put(ChessPiece.PieceType.QUEEN, new QueenMoves());
+        moveStrategies.put(ChessPiece.PieceType.ROOK, new RookMoves());
 
     }
 
