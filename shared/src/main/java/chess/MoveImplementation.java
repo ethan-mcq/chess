@@ -14,6 +14,8 @@ public class MoveImplementation {
         moveStrategies.put(ChessPiece.PieceType.BISHOP, new BishopMoves());
         moveStrategies.put(ChessPiece.PieceType.KING, new KingMoves());
         moveStrategies.put(ChessPiece.PieceType.KNIGHT, new KnightMoves());
+        moveStrategies.put(ChessPiece.PieceType.QUEEN, new QueenMoves());
+
     }
 
     public static Collection<ChessMove> calculatePieceMoves(ChessPiece piece, ChessBoard board, ChessPosition position) {
