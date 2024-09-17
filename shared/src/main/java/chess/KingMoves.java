@@ -38,7 +38,5 @@ public class KingMoves implements PieceMoves {
                 moves.add(new ChessMove(startPosition, newPosition, null));
             }
         }
-
-
     }
 }
