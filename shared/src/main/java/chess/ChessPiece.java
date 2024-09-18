@@ -1,5 +1,7 @@
 package chess;
 
+import java.awt.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -20,9 +22,17 @@ public class ChessPiece {
         this.type = type;
     }
 
-    @Override //We wont need this until we are printing piece names to the board
+    @Override
     public String toString() {
-        return super.toString();
+        String pieceNotation = switch (type) {
+            case PAWN -> "P";
+            case ROOK -> "R";
+            case KNIGHT -> "N";
+            case BISHOP -> "B";
+            case QUEEN -> "Q";
+            case KING -> "K";
+        };
+        return pieceColor == ChessGame.TeamColor.BLACK ? pieceNotation.toLowerCase() : pieceNotation;
     }
 
     @Override //establish the type available
