@@ -40,9 +40,13 @@ public class ChessPiece {
         return Objects.hash(pieceColor, type);
     }
 
-    @Override//We wont need this until we are printing piece names to the board
+    @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ChessPiece that = (ChessPiece) obj;
+        return Objects.equals(type, that.type) &&
+                Objects.equals(pieceColor, that.pieceColor);
     }
 
     /**
