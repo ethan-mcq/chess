@@ -48,14 +48,24 @@ public class PawnMoves implements PieceMoves {
         int col = position.getColumn();
         int moveRow = row + colorDirectionAssignment;
         int[] captureCols = { col + 1, col -1 }; // we can capture diagonally on either side
+        for (int captureCol : captureCols) {
+            if (captureCol > 0 && captureCol < boardWidthLen && moveRow > 0 && moveRow < boardWidthLen) {
+                ChessPosition newPosition = new ChessPosition(moveRow, captureCol);
+                ChessPiece targetPiece = board.getPiece(newPosition);
+
+                if (targetPiece != null && targetPiece.getTeamColor() != board.getPiece(position).getTeamColor()) {
+                    promotionMoves(position, newPosition, moves, colorDirectionAssignment);
+                }
+            }
+        }
     }
     private void promotionMoves(ChessPosition position, ChessPosition newPosition, Collection<ChessMove> moves, int colorDirectionAssignment) {
         int promoRow = colorDirectionAssignment == 1 ? 8 : 1; // if its white then it will be in row 8, 1 if black
-        if (position.getRow() == promoRow) {
-            moves.add(new ChessMove(position, null, ChessPiece.PieceType.QUEEN));
-            moves.add(new ChessMove(position, null, ChessPiece.PieceType.KNIGHT));
-            moves.add(new ChessMove(position, null, ChessPiece.PieceType.ROOK));
-            moves.add(new ChessMove(position, null, ChessPiece.PieceType.BISHOP));
+        if (newPosition.getRow() == promoRow) {
+            moves.add(new ChessMove(position, newPosition, ChessPiece.PieceType.QUEEN));
+            moves.add(new ChessMove(position, newPosition, ChessPiece.PieceType.KNIGHT));
+            moves.add(new ChessMove(position, newPosition, ChessPiece.PieceType.ROOK));
+            moves.add(new ChessMove(position, newPosition, ChessPiece.PieceType.BISHOP));
         } else {
             moves.add(new ChessMove(position, newPosition, null));
         }
