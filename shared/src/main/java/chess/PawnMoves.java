@@ -35,10 +35,10 @@ public class PawnMoves implements PieceMoves {
             promotionMoves(position, new ChessPosition(moveRow, col), moves, colorDirectionAssignment);
 
             // Is it first move
-            int startPosition = colorDirectionAssignment == 1 ? 2 : 7;
-            moveRow = row + 2 * colorDirectionAssignment;
-            if (moveRow == startPosition && board.getPiece(new ChessPosition(moveRow, col)) == null) {
-                moves.add(new ChessMove(position, new ChessPosition(moveRow, col), null));
+            int startPosition = (colorDirectionAssignment == 1) ? 2 : 7;
+            int secondMoveRow = row + 2 * colorDirectionAssignment;
+            if (row == startPosition && board.getPiece(new ChessPosition(moveRow, col)) == null && board.getPiece(new ChessPosition(secondMoveRow, col)) == null) {
+                moves.add(new ChessMove(position, new ChessPosition(secondMoveRow, col), null));
             }
         }
     }
