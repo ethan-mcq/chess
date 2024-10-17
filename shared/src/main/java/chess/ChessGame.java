@@ -235,7 +235,7 @@ public class ChessGame {
     }
     @Override
     public String toString() {
-        return board.toString();
+        return this.teamTurn == TeamColor.WHITE ? "WHITE" : "BLACK"; // This needs to return the team
     }
     @Override
     public int hashCode() {
