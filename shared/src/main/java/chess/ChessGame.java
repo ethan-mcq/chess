@@ -85,35 +85,29 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        // Determine the starting and ending positions
         ChessPosition start = move.getStartPosition();
         ChessPosition end = move.getEndPosition();
 
-        // Get the piece at the starting position
         ChessPiece piece = board.getPiece(start);
         if (piece == null) {
             throw new InvalidMoveException("No piece at the starting position");
         }
 
-        // Check if the move is for the correct team
         if (piece.getTeamColor() != getTeamTurn()) {
             throw new InvalidMoveException("It is not your turn");
         }
 
-        // Check if the move is valid for the piece
         Collection<ChessMove> validMoves = validMoves(start);
         if (!validMoves.contains(move)) {
             throw new InvalidMoveException("Invalid move for the piece");
         }
 
-        // Check if it is a valid move and the correct team’s turn
         if (piece.getTeamColor() == getTeamTurn() && validMoves.contains(move)) {
             // Pawn Promotion Logic
             if (piece.getPieceType() == ChessPiece.PieceType.PAWN &&
                     (end.getRow() == 8 && piece.getTeamColor() == TeamColor.WHITE) ||
                     (end.getRow() == 1 && piece.getTeamColor() == TeamColor.BLACK)) {
 
-                // If a promotion piece type is provided, change piece type
                 if (move.getPromotionPiece() != null) {
                     piece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
                 }
@@ -123,7 +117,6 @@ public class ChessGame {
             board.addPiece(end, piece);
             board.addPiece(start, null);
 
-            // Switch the turn to the other team
             setTeamTurn(getTeamTurn() == TeamColor.WHITE ? TeamColor.BLACK : TeamColor.WHITE);
         } else {
             throw new InvalidMoveException("Invalid move or not your turn");
@@ -216,8 +209,7 @@ public class ChessGame {
                 ChessPiece piece = board.getPiece(pos);
                 if (piece != null && piece.getTeamColor() == teamColor) {
                     Collection<ChessMove> validMoves = validMoves(pos);
-                    // Debug print statement
-                    System.out.println("Piece at " + pos + ": " + piece + " has valid moves: " + validMoves);
+
                     if (validMoves != null && !validMoves.isEmpty()) {
                         return false;
                     }
