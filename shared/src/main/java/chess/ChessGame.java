@@ -34,7 +34,7 @@ public class ChessGame {
      * @param team the team whose turn it is
      */
     public void setTeamTurn(TeamColor team) {
-        this.teamTurn = team;
+        this.teamTurn = team; // do we need 'this'
     }
 
     /**
@@ -84,27 +84,24 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        ChessPosition start = move.getStartPosition();
+        ChessPosition start = move.getStartPosition(); //why are they red
         ChessPosition end = move.getEndPosition();
 
         ChessPiece piece = board.getPiece(start);
         if (piece == null) {
             throw new InvalidMoveException("No piece at the starting position");
         }
-
         if (piece.getTeamColor() != getTeamTurn()) {
             throw new InvalidMoveException("It is not your turn");
         }
-
         Collection<ChessMove> validMoves = validMoves(start);
         if (!validMoves.contains(move)) {
             throw new InvalidMoveException("Invalid move for the piece");
         }
-
         if (piece.getTeamColor() == getTeamTurn() && validMoves.contains(move)) {
             // Pawn Promotion Logic
             if (piece.getPieceType() == ChessPiece.PieceType.PAWN &&
-                    (end.getRow() == 8 && piece.getTeamColor() == TeamColor.WHITE) ||
+                    (end.getRow() == 8 && piece.getTeamColor() == TeamColor.WHITE) || // have to make sure this is calculating the board size correctly
                     (end.getRow() == 1 && piece.getTeamColor() == TeamColor.BLACK)) {
 
                 if (move.getPromotionPiece() != null) {
@@ -197,12 +194,12 @@ public class ChessGame {
      * @param teamColor which team to check for stalemate
      * @return True if the specified team is in stalemate, otherwise false
      */
-    public boolean isInStalemate(TeamColor teamColor) {
+    public boolean isInStalemate(TeamColor teamColor) { //for the future make sure that this is always giving the right promotion piece..
         if (isInCheck(teamColor)) {
             return false;
         }
 
-        for (int row = 1; row <= 8; row++) {
+        for (int row = 1; row <= 8; row++) { //calculate the board size right
             for (int col = 1; col <= 8; col++) {
                 ChessPosition pos = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(pos);
@@ -238,7 +235,7 @@ public class ChessGame {
     }
     @Override
     public String toString() {
-        return this.teamTurn == TeamColor.WHITE ? "white" : "black";
+        return board.toString();
     }
     @Override
     public int hashCode() {
