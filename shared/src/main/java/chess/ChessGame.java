@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -10,15 +11,19 @@ import java.util.Collection;
  */
 public class ChessGame {
 
-    public ChessGame() {
+    private ChessBoard board;
+    private TeamColor teamColor;
 
+    public ChessGame() {
+        this.board = new ChessBoard();
+        this.teamColor = TeamColor.WHITE;
     }
 
     /**
      * @return Which team's turn it is
      */
     public TeamColor getTeamTurn() {
-        throw new RuntimeException("Not implemented");
+        return teamColor;
     }
 
     /**
@@ -27,7 +32,7 @@ public class ChessGame {
      * @param team the team whose turn it is
      */
     public void setTeamTurn(TeamColor team) {
-        throw new RuntimeException("Not implemented");
+        this.teamColor = team;
     }
 
     /**
@@ -46,7 +51,28 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
+        ChessPiece piece = board.getPiece(startPosition);
+        if (piece == null) {
+            return null;
+        }
+        Collection<ChessMove> allMove = piece.pieceMoves(board, startPosition);
+        Collection<ChessMove> validMoves = new HashSet<>();
+
+        for (ChessMove move : allMove) {
+            ChessPosition endPosition = move.getEndPosition();
+            ChessPiece capturedPiece = board.getPiece(endPosition);
+            //we need to check
+            board.addPiece(startPosition, null);
+            board.addPiece(endPosition, piece);
+            if (!isInCheck(piece.getTeamColor())) {
+                validMoves.add(move);
+            }
+            // Move back
+            board.addPiece(endPosition, capturedPiece);
+            board.addPiece(startPosition, piece);
+        }
+
+        return validMoves;
     }
 
     /**
@@ -96,7 +122,7 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        throw new RuntimeException("Not implemented");
+        this.board = board;
     }
 
     /**
@@ -106,5 +132,9 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         throw new RuntimeException("Not implemented");
+    }
+    @Override
+    public String toString() {
+        return this.teamColor == TeamColor.WHITE ? "white" : "black";
     }
 }
