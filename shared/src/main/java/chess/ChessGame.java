@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,7 +18,7 @@ public class ChessGame {
     public ChessGame() {
         this.board = new ChessBoard();
         setTeamTurn(TeamColor.WHITE);
-        board.resetBoard();
+        board.resetBoard(); // This will initialize the board whenever we start a new game
     }
 
     /**
