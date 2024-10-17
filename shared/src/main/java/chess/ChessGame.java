@@ -19,6 +19,7 @@ public class ChessGame {
     public ChessGame() {
         this.board = new ChessBoard();
         setTeamTurn(TeamColor.WHITE);
+        board.resetBoard();
     }
 
     /**
@@ -209,13 +210,15 @@ public class ChessGame {
             return false;
         }
 
-        for (int row = 1; row < 9; row++) {
-            for (int col = 1; col < 9; col++) {
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
                 ChessPosition pos = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(pos);
                 if (piece != null && piece.getTeamColor() == teamColor) {
                     Collection<ChessMove> validMoves = validMoves(pos);
-                    if (!validMoves.isEmpty() && validMoves != null) {
+                    // Debug print statement
+                    System.out.println("Piece at " + pos + ": " + piece + " has valid moves: " + validMoves);
+                    if (validMoves != null && !validMoves.isEmpty()) {
                         return false;
                     }
                 }
