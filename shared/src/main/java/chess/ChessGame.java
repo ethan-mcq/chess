@@ -105,15 +105,27 @@ public class ChessGame {
             throw new InvalidMoveException("Invalid move for the piece");
         }
 
-        // Execute the move
-        board.addPiece(end, piece);
-        board.addPiece(start, null);
+        // Check if it is a valid move and the correct team’s turn
+        if (piece.getTeamColor() == getTeamTurn() && validMoves.contains(move)) {
+            // Pawn Promotion Logic
+            if (piece.getPieceType() == ChessPiece.PieceType.PAWN &&
+                    (end.getRow() == 8 && piece.getTeamColor() == TeamColor.WHITE) ||
+                    (end.getRow() == 1 && piece.getTeamColor() == TeamColor.BLACK)) {
 
-        // Switch the turn to the other team
-        if (teamColor == TeamColor.WHITE) {
-            setTeamTurn(TeamColor.BLACK);
+                // If a promotion piece type is provided, change piece type
+                if (move.getPromotionPiece() != null) {
+                    piece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
+                }
+            }
+
+            // Execute the move
+            board.addPiece(end, piece);
+            board.addPiece(start, null);
+
+            // Switch the turn to the other team
+            setTeamTurn(getTeamTurn() == TeamColor.WHITE ? TeamColor.BLACK : TeamColor.WHITE);
         } else {
-            setTeamTurn(TeamColor.WHITE);
+            throw new InvalidMoveException("Invalid move or not your turn");
         }
     }
 

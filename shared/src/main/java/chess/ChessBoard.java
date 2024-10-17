@@ -74,6 +74,7 @@ public class ChessBoard {
      * Sets the board to the default starting board
      * (How the game of chess normally starts)
      */
+
     public void resetBoard() {
         squares = new ChessPiece[9][9];
 
