@@ -14,18 +14,18 @@ import java.util.Objects;
 public class ChessGame {
 
     private ChessBoard board;
-    private TeamColor teamColor;
+    private TeamColor teamTurn;
 
     public ChessGame() {
         this.board = new ChessBoard();
-        this.teamColor = TeamColor.WHITE;
+        setTeamTurn(TeamColor.WHITE);
     }
 
     /**
      * @return Which team's turn it is
      */
     public TeamColor getTeamTurn() {
-        return teamColor;
+        return teamTurn;
     }
 
     /**
@@ -34,7 +34,7 @@ public class ChessGame {
      * @param team the team whose turn it is
      */
     public void setTeamTurn(TeamColor team) {
-        this.teamColor = team;
+        this.teamTurn = team;
     }
 
     /**
@@ -215,7 +215,7 @@ public class ChessGame {
                 ChessPiece piece = board.getPiece(pos);
                 if (piece != null && piece.getTeamColor() == teamColor) {
                     Collection<ChessMove> validMoves = validMoves(pos);
-                    if (!validMoves.isEmpty()) {
+                    if (!validMoves.isEmpty() && validMoves != null) {
                         return false;
                     }
                 }
@@ -244,17 +244,17 @@ public class ChessGame {
     }
     @Override
     public String toString() {
-        return this.teamColor == TeamColor.WHITE ? "white" : "black";
+        return this.teamTurn == TeamColor.WHITE ? "white" : "black";
     }
     @Override
     public int hashCode() {
-        return Objects.hash(board, teamColor);
+        return Objects.hash(board, teamTurn);
     }
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         ChessGame chessGame = (ChessGame) obj;
-        return Objects.equals(board, chessGame.board) && teamColor == chessGame.teamColor;
+        return Objects.equals(board, chessGame.board) && teamTurn == chessGame.teamTurn;
     }
 }
