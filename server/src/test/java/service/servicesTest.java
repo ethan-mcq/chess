@@ -1,30 +1,27 @@
 package service;
 
-import dataaccess.data;
+import dataaccess.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import server.Server;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 public class servicesTest {
 
     private services services;
-    private data mockData;
+    private data concreteData;
 
     @BeforeEach
     public void setUp() {
-        mockData = mock(data.class);
-        services = new services(mockData);
+        concreteData = new data(dataTypes.MEM_DATA);
+        services = new services(concreteData);
     }
 
     @Test
     @DisplayName("Fetch Existing Service")
     public void testFetchClientService_ExistingService() {
-        // Positive Test Case: Service exists
 
         authS authService = services.fetchClientService(authS.class);
 
@@ -35,7 +32,6 @@ public class servicesTest {
     @Test
     @DisplayName("Fetch Non-Existing Service")
     public void testFetchClientService_NonExistingService() {
-        // Negative Test Case: Service does not exist
 
         class MockService extends baseS {
             public MockService(data data) {

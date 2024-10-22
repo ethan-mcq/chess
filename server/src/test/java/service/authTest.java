@@ -17,7 +17,7 @@ public class authTest {
 
     @BeforeEach
     public void setUp() throws DataAccessException {
-        // Initialize dataSource with relevant dataTypes
+
         dataSource = new data(dataTypes.MEM_DATA);
         authService = new authS(dataSource);
         authDAO = dataSource.fetchClientData(authDAO.class);

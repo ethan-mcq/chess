@@ -12,7 +12,7 @@ public class gameMDAO implements gameDAO {
     private final Map<Integer, gameData> gameDataMap = new ConcurrentHashMap<>();
 
     @Override
-    public gameList getAllGames() {
+    public gameList getAllGames() throws DataAccessException {
         List<gameResponse> gameDataResponses = gameDataMap.values().stream()
                 .map(gameData -> new gameResponse(
                         gameData.gameID(),
@@ -25,12 +25,12 @@ public class gameMDAO implements gameDAO {
     }
 
     @Override
-    public gameData getGames(int gameID) {
+    public gameData getGames(int gameID) throws DataAccessException {
         return gameDataMap.get(gameID);
     }
 
     @Override
-    public gameData joinGame(join joinRequest) {
+    public gameData joinGame(join joinRequest) throws DataAccessException {
         int gameID = joinRequest.gameID();
         gameData gameData = gameDataMap.get(gameID);
 
@@ -71,7 +71,7 @@ public class gameMDAO implements gameDAO {
     }
 
     @Override
-    public gameData createGame(gameData gameData) {
+    public gameData createGame(gameData gameData) throws DataAccessException {
         int newGameID = gameDataMap.size() + 1;
         gameData newGameData = new gameData(newGameID, gameData.gameName(), gameData.game(), gameData.blackUsername(), gameData.whiteUsername());
         gameDataMap.put(newGameID, newGameData);
@@ -79,7 +79,7 @@ public class gameMDAO implements gameDAO {
     }
 
     @Override
-    public void deleteAllGames() {
+    public void deleteAllGames() throws DataAccessException {
         gameDataMap.clear();
     }
 }

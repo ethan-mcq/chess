@@ -41,6 +41,17 @@ public class gameS extends baseS {
     }
 
     /**
+     * Retrieves the list of all games.
+     *
+     * @return The gameID info
+     * @throws DataAccessException If there is an issue accessing data
+     */
+    public gameData getGames(int gameID) throws DataAccessException {
+        gameDAO gameDataAccess = this.dataAccess.fetchClientData(gameDAO.class);
+        return gameDataAccess.getGames(gameID);
+    }
+
+    /**
      * Allows a user to join a game.
      *
      * @param join The join game request
