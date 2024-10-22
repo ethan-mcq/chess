@@ -68,8 +68,8 @@ public class gameH extends baseH{
     }
 
     public Object getListOfGames(Request req, Response res) throws DataAccessException {
-        gameS gameS = this.services.fetchClientService(gameS.class);
-        gameList gameListResult = gameS.getAllGames();
+        gameS gameService = this.services.fetchClientService(gameS.class);
+        gameList gameListResult = gameService.getAllGames();
 
         Map<String, Object> jsonResponse = new HashMap<>();
         jsonResponse.put("games", gameListResult.getGames());

@@ -16,9 +16,9 @@ public class gameMDAO implements gameDAO {
         for (gameData gameData : gameDataMap.values()) {
             gameDataResponses.add(new gameResponse(
                     gameData.gameID(),
-                    gameData.whiteUser(),
-                    gameData.blackUser(),
-                    gameData.gameName()
+                    gameData.gameName(),
+                    gameData.whiteUsername(),
+                    gameData.blackUsername()
             ));
         }
         return new gameList(new ArrayList<>(gameDataResponses));
@@ -50,8 +50,8 @@ public class gameMDAO implements gameDAO {
     }
 
     private gameData joinGameAsWhite(join joinGameRequest, gameData gameData) {
-        if (gameData.whiteUser() == null) {
-            gameData newgameData = createNewgameData(gameData, joinGameRequest.username(), gameData.blackUser());
+        if (gameData.whiteUsername() == null) {
+            gameData newgameData = createNewgameData(gameData, joinGameRequest.username(), gameData.blackUsername());
             gameDataMap.put(newgameData.gameID(), newgameData);
             return newgameData;
         }
@@ -59,21 +59,21 @@ public class gameMDAO implements gameDAO {
     }
 
     private gameData joinGameAsBlack(join join, gameData gameData) {
-        if (gameData.blackUser() == null) {
-            gameData newgameData = createNewgameData(gameData, gameData.whiteUser(), join.username());
+        if (gameData.blackUsername() == null) {
+            gameData newgameData = createNewgameData(gameData, gameData.whiteUsername(), join.username());
             gameDataMap.put(newgameData.gameID(), newgameData);
             return newgameData;
         }
         return null;
     }
 
-    private gameData createNewgameData(gameData gameData, String whiteUser, String blackUser) {
-        return new gameData(gameData.gameID(), gameData.gameName(), gameData.game(), whiteUser, blackUser);
+    private gameData createNewgameData(gameData gameData, String whiteUsername, String blackUsername) {
+        return new gameData(gameData.gameID(), gameData.gameName(), gameData.game(), whiteUsername, blackUsername);
     }
 
     @Override
     public gameData createGame(gameData gameData) {
-        gameData newgameData = new gameData(gameDataMap.size() + 1, gameData.gameName(), gameData.game(), gameData.blackUser(), gameData.whiteUser());
+        gameData newgameData = new gameData(gameDataMap.size() + 1, gameData.gameName(), gameData.game(), gameData.blackUsername(), gameData.whiteUsername());
         gameDataMap.put(gameDataMap.size()+1, newgameData);
         return newgameData;
     }
