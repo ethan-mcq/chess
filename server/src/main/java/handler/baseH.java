@@ -1,12 +1,9 @@
 package handler;
 
-import dataaccess.DataAccessException;
-import model.auth;
-import service.authS;
-import service.services;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import dataaccess.*;
+import model.*;
+import service.*;
+import spark.*;
 
 public abstract class baseH {
 

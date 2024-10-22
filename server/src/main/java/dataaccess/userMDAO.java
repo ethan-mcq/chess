@@ -1,6 +1,5 @@
 package dataaccess;
 
-import dataaccess.*;
 import model.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,6 @@ public class userMDAO implements userDAO {
         }
         return null;
     }
-
 
     @Override
     public user insertUser(user user) throws DataAccessException {

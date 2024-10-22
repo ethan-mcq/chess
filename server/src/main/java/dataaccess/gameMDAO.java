@@ -3,7 +3,6 @@ package dataaccess;
 import model.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +25,7 @@ public class gameMDAO implements gameDAO {
     }
 
     @Override
-    public gameData getGame(int gameID) {
+    public gameData getGames(int gameID) {
         if(gameDataMap.containsKey(gameID)) {
             return gameDataMap.get(gameID);
         }

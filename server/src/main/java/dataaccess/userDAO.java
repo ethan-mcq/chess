@@ -1,6 +1,5 @@
 package dataaccess;
 
-import dataaccess.*;
 import model.*;
 
 public interface userDAO extends baseDAO{
