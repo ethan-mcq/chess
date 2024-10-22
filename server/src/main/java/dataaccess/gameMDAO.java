@@ -8,74 +8,75 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class gameMDAO implements gameDAO {
-    Map<Integer, gameData> gameDataMap = new ConcurrentHashMap<>();
+
+    // Thread-safe map for storing game data
+    private final Map<Integer, gameData> gameDataMap = new ConcurrentHashMap<>();
 
     @Override
     public gameList getAllGames() {
-        List<gameResponse> gameDataResponses = new ArrayList<>();
-        for (gameData gameData : gameDataMap.values()) {
-            gameDataResponses.add(new gameResponse(
-                    gameData.gameID(),
-                    gameData.gameName(),
-                    gameData.whiteUsername(),
-                    gameData.blackUsername()
-            ));
-        }
+        List<gameResponse> gameDataResponses = gameDataMap.values().stream()
+                .map(gameData -> new gameResponse(
+                        gameData.gameID(),
+                        gameData.gameName(),
+                        gameData.whiteUsername(),
+                        gameData.blackUsername()))
+                .toList();
+
         return new gameList(new ArrayList<>(gameDataResponses));
     }
 
     @Override
     public gameData getGames(int gameID) {
-        if(gameDataMap.containsKey(gameID)) {
-            return gameDataMap.get(gameID);
-        }
-        return null;
+        return gameDataMap.get(gameID);
     }
 
     @Override
-    public gameData joinGame(join join) {
-        int gameID = join.gameID();
-        if (!gameDataMap.containsKey(gameID)) {
+    public gameData joinGame(join joinRequest) {
+        int gameID = joinRequest.gameID();
+        gameData gameData = gameDataMap.get(gameID);
+
+        if (gameData == null) {
             return null;
         }
 
-        gameData gameData = gameDataMap.get(gameID);
-        String playerColor = join.playerColor();
-
-        if ("WHITE".equals(playerColor)) {
-            return joinGameAsWhite(join, gameData);
-        } else {
-            return joinGameAsBlack(join, gameData);
+        switch (joinRequest.playerColor().toUpperCase()) {
+            case "WHITE":
+                return joinGameAsWhite(joinRequest, gameData);
+            case "BLACK":
+                return joinGameAsBlack(joinRequest, gameData);
+            default:
+                return null;
         }
     }
 
-    private gameData joinGameAsWhite(join joinGameRequest, gameData gameData) {
+    private gameData joinGameAsWhite(join joinRequest, gameData gameData) {
         if (gameData.whiteUsername() == null) {
-            gameData newgameData = createNewgameData(gameData, joinGameRequest.username(), gameData.blackUsername());
-            gameDataMap.put(newgameData.gameID(), newgameData);
-            return newgameData;
+            gameData newGameData = createNewGameData(gameData, joinRequest.username(), gameData.blackUsername());
+            gameDataMap.put(newGameData.gameID(), newGameData);
+            return newGameData;
         }
         return null;
     }
 
-    private gameData joinGameAsBlack(join join, gameData gameData) {
+    private gameData joinGameAsBlack(join joinRequest, gameData gameData) {
         if (gameData.blackUsername() == null) {
-            gameData newgameData = createNewgameData(gameData, gameData.whiteUsername(), join.username());
-            gameDataMap.put(newgameData.gameID(), newgameData);
-            return newgameData;
+            gameData newGameData = createNewGameData(gameData, gameData.whiteUsername(), joinRequest.username());
+            gameDataMap.put(newGameData.gameID(), newGameData);
+            return newGameData;
         }
         return null;
     }
 
-    private gameData createNewgameData(gameData gameData, String whiteUsername, String blackUsername) {
+    private gameData createNewGameData(gameData gameData, String whiteUsername, String blackUsername) {
         return new gameData(gameData.gameID(), gameData.gameName(), gameData.game(), whiteUsername, blackUsername);
     }
 
     @Override
     public gameData createGame(gameData gameData) {
-        gameData newgameData = new gameData(gameDataMap.size() + 1, gameData.gameName(), gameData.game(), gameData.blackUsername(), gameData.whiteUsername());
-        gameDataMap.put(gameDataMap.size()+1, newgameData);
-        return newgameData;
+        int newGameID = gameDataMap.size() + 1;
+        gameData newGameData = new gameData(newGameID, gameData.gameName(), gameData.game(), gameData.blackUsername(), gameData.whiteUsername());
+        gameDataMap.put(newGameID, newGameData);
+        return newGameData;
     }
 
     @Override

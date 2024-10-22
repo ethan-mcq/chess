@@ -1,7 +1,6 @@
 package dataaccess;
 
 import model.auth;
-import dataaccess.data;
 
 public interface authDAO extends baseDAO {
     auth insertAuth(auth authData) throws DataAccessException;
