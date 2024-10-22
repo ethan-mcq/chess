@@ -103,13 +103,6 @@
             <scope>system</scope>
             <systemPath>${pom.basedir}/lib/passoff-dependencies.jar</systemPath>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>service-dependencies</artifactId>
-            <version>5.14.2</version>
-            <scope>system</scope>
-            <systemPath>${pom.basedir}/lib/mockito-core-5.14.2.jar</systemPath>
-        </dependency>
     </dependencies>
 
 
