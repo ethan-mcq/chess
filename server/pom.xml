@@ -105,9 +105,10 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
+            <artifactId>service-dependencies</artifactId>
             <version>5.14.2</version>
-            <scope>test</scope>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/mockito-core-5.14.2.jar</systemPath>
         </dependency>
     </dependencies>
 
