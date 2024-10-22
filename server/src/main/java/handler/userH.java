@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 
 public class userH extends baseH {
 
+    private static final Gson gson = new Gson();
+
     public userH(services services) {
         super(services);
         this.root = "/user";
@@ -18,18 +20,26 @@ public class userH extends baseH {
         Spark.post(this.root, this::register);
     }
 
-    private Object register(Request req, Response res) throws DataAccessException, problem {
-        user userRequest = user.fromJson(req.body());
-        if(userRequest == null) {
+    /**
+     * Handles user registration request.
+     * @param httpRequest The HTTP request
+     * @param httpResponse The HTTP response
+     * @return JSON representation of the auth object
+     * @throws DataAccessException If there is an issue accessing data
+     * @throws problem If there is an issue with the registration request
+     */
+    private Object register(Request httpRequest, Response httpResponse) throws DataAccessException, problem {
+        user userRequest = user.fromJson(httpRequest.body());
+        if (userRequest == null) {
             throw new problem("Bad Request", 400);
         }
-        userS userS = this.services.fetchClientService(userS.class);
-        auth auth = userS.createUser(userRequest);
-        if(auth == null){
+        userS userService = this.services.fetchClientService(userS.class);
+        auth auth = userService.createUser(userRequest);
+        if (auth == null) {
             throw new problem("Username Taken", 403);
         }
 
-        this.setSuccessHeaders(res);
-        return new Gson().toJson(auth);
+        this.setSuccessHeaders(httpResponse);
+        return gson.toJson(auth);
     }
 }

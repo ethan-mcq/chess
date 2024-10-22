@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class gameMDAO implements gameDAO {
 
-    // Thread-safe map for storing game data
     private final Map<Integer, gameData> gameDataMap = new ConcurrentHashMap<>();
 
     @Override

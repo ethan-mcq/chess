@@ -6,35 +6,61 @@ import service.*;
 import spark.*;
 import com.google.gson.Gson;
 
-public class authH extends baseH{
+import javax.swing.*;
+
+public class authH extends baseH {
+
+    private static final Gson gson = new Gson();
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+
     public authH(services services) {
         super(services);
         this.root = "/session";
     }
-    public Object login(Request req, Response response) throws problem, DataAccessException {
-        login loginRequest = login.fromJson(req.body());
-        if(loginRequest == null){
+
+    /**
+     * Handles user login request
+     * @param httpRequest The HTTP request
+     * @param httpResponse The HTTP response
+     * @return JSON representation of the auth object
+     * @throws problem If there is an issue with the login request
+     * @throws DataAccessException If there is an issue accessing data
+     */
+    public Object login(Request httpRequest, Response httpResponse) throws problem, DataAccessException {
+        login loginRequest = login.fromJson(httpRequest.body());
+        if (loginRequest == null) {
             throw new problem("Bad Request", 400);
         }
 
         authS authS = this.services.fetchClientService(authS.class);
         auth auth = authS.login(loginRequest);
-        if(auth == null){
+        if (auth == null) {
             throw new problem("Unauthorized", 401);
         }
 
-        this.setSuccessHeaders(response);
-        return new Gson().toJson(auth);
+        this.setSuccessHeaders(httpResponse);
+        return gson.toJson(auth);
     }
 
-    public Object logout(Request req, Response res) throws DataAccessException {
-        String authToken = req.headers("Authorization");
+    /**
+     * Handles user logout request
+     * @param httpRequest The HTTP request
+     * @param httpResponse The HTTP response
+     * @return Empty JSON object
+     * @throws DataAccessException If there is an issue accessing data
+     */
+    public Object logout(Request httpRequest, Response httpResponse) throws DataAccessException {
+        String authToken = httpRequest.headers(AUTHORIZATION_HEADER);
         authS authS = this.services.fetchClientService(authS.class);
         authS.logout(authToken);
 
-        this.setSuccessHeaders(res);
-        return new Gson().toJson(new Object());
+        this.setSuccessHeaders(httpResponse);
+        return gson.toJson(new Object());
     }
+
+    /**
+     * Initializes the handler routes.
+     */
     @Override
     public void initHandler() {
         Spark.post(this.root, this::login);

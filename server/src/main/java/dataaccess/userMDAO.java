@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class userMDAO implements userDAO {
-    // Username, and UserData
+
     Map<String, user> users = new HashMap<>();
 
     @Override
