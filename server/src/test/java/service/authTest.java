@@ -1,48 +1,39 @@
 package service;
 
-import dataaccess.authDAO;
-import dataaccess.data;
-import dataaccess.userDAO;
-import dataaccess.DataAccessException;
-import model.auth;
-import model.login;
-import model.user;
+import dataaccess.*;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class authTest {
 
-    private data mockData;
+    private data dataSource;
     private authS authService;
-    private authDAO mockAuthDAO;
-    private userDAO mockUserDAO;
+    private authDAO authDAO;
+    private userDAO userDAO;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
-        mockData = mock(data.class);
-        authService = new authS(mockData);
-        mockAuthDAO = mock(authDAO.class);
-        mockUserDAO = mock(userDAO.class);
-
-        when(mockData.fetchClientData(authDAO.class)).thenReturn(mockAuthDAO);
-        when(mockData.fetchClientData(userDAO.class)).thenReturn(mockUserDAO);
+        // Initialize dataSource with relevant dataTypes
+        dataSource = new data(dataTypes.MEM_DATA);
+        authService = new authS(dataSource);
+        authDAO = dataSource.fetchClientData(authDAO.class);
+        userDAO = dataSource.fetchClientData(userDAO.class);
     }
 
     @Test
     @DisplayName("Login with valid credentials")
-    public void testLogin_ValidCredentials() throws Exception {
+    public void testLogin_ValidCredentials() throws DataAccessException {
         String username = "testUser";
         String password = "password";
         String hashedPassword = authS.hashPassword(password);
 
-        user mockUser = new user(username, hashedPassword, "email@mail.com");
-
-        when(mockUserDAO.getUser(username)).thenReturn(mockUser);
-        when(mockAuthDAO.insertAuth(any(auth.class))).thenAnswer(invocation -> invocation.getArguments()[0]);
+        user user = new user(username, hashedPassword, "email@mail.com");
+        userDAO.insertUser(user);
+        authDAO.insertAuth(new auth("validToken", username));
 
         login loginRequest = new login(username, password);
         auth authResult = authService.login(loginRequest);
@@ -53,15 +44,14 @@ public class authTest {
 
     @Test
     @DisplayName("Login with invalid credentials")
-    public void testLogin_InvalidCredentials() throws Exception {
+    public void testLogin_InvalidCredentials() throws DataAccessException {
         String username = "testUser";
         String password = "password";
         String wrongPassword = "wrongPassword";
-        String hashedPassword = authS.hashPassword(wrongPassword);
+        String hashedWrongPassword = authS.hashPassword(wrongPassword);
 
-        user mockUser = new user(username, hashedPassword, "email@mail.com");
-
-        when(mockUserDAO.getUser(username)).thenReturn(mockUser);
+        user user = new user(username, hashedWrongPassword, "email@mail.com");
+        userDAO.insertUser(user);
 
         login loginRequest = new login(username, password);
         auth authResult = authService.login(loginRequest);
@@ -71,12 +61,11 @@ public class authTest {
 
     @Test
     @DisplayName("Get authentication data with valid token")
-    public void testGetAuthData_ValidToken() throws Exception {
+    public void testGetAuthData_ValidToken() throws DataAccessException {
         String authToken = "validToken";
 
-        auth mockAuth = new auth(authToken, "testUser");
-
-        when(mockAuthDAO.getAuth(authToken)).thenReturn(mockAuth);
+        auth auth = new auth(authToken, "testUser");
+        authDAO.insertAuth(auth);
 
         auth authResult = authService.getAuthData(authToken);
 
@@ -86,27 +75,27 @@ public class authTest {
 
     @Test
     @DisplayName("Logout with valid token")
-    public void testLogout_ValidToken() throws Exception {
+    public void testLogout_ValidToken() throws DataAccessException {
         String authToken = "validToken";
 
-        // Use doNothing().when for void methods and handle exceptions if any
-        doAnswer(invocation -> null).when(mockAuthDAO).removeAuth(authToken);
+        auth auth = new auth(authToken, "testUser");
+        authDAO.insertAuth(auth);
 
         authService.logout(authToken);
 
-        // Verify that the removeAuth method was called once with the correct token
-        verify(mockAuthDAO, times(1)).removeAuth(authToken);
+        auth authResult = authDAO.getAuth(authToken);
+        assertNull(authResult);
     }
 
     @Test
     @DisplayName("Delete all authentication tokens")
-    public void testDeleteAll() throws Exception {
-        // Use doNothing().when for void methods and handle exceptions if any
-        doAnswer(invocation -> null).when(mockAuthDAO).removeAuth();
+    public void testDeleteAll() throws DataAccessException {
+        authDAO.insertAuth(new auth("token1", "user1"));
+        authDAO.insertAuth(new auth("token2", "user2"));
 
         authService.deleteAll();
 
-        // Verify that the removeAuth method was called once
-        verify(mockAuthDAO, times(1)).removeAuth();
+        assertNull(authDAO.getAuth("token1"));
+        assertNull(authDAO.getAuth("token2"));
     }
 }

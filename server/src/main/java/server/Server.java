@@ -14,13 +14,13 @@ import com.google.gson.Gson;
 public class Server {
 
     private final List<baseH> handler;
-    private final data dataAccess;
+    private final data dataaccess;
     private final service.services services;
 
     public Server() {
         this.handler = new ArrayList<>();
-        this.dataAccess = new data(dataTypes.MEM_DATA);
-        this.services = new services(dataAccess);
+        this.dataaccess = new data(dataTypes.MEM_DATA);
+        this.services = new services(dataaccess);
         this.setupHandlers();
     }
 
