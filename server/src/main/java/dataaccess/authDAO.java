@@ -7,5 +7,5 @@ public interface authDAO extends baseDAO {
     auth removeAuth(String authToken) throws DataAccessException;
     auth getAuth(String authToken) throws DataAccessException;
 
-    void removeAuth() throws DataAccessException;
+    void removeAuth() throws DataAccessException; // failed to compile?
 }
