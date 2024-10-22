@@ -1,5 +1,8 @@
 package model;
-//this will need to be an array
-public record gameList () {
+import java.util.ArrayList;
 
+public record gameList(ArrayList<gameResponse> gameArray) {
+    public ArrayList<gameResponse> getGames() {
+        return gameArray;
+    }
 }
