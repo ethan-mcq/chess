@@ -15,17 +15,17 @@ import com.google.gson.Gson;
 public class Server {
 
     private final List<BaseH> handler;
-    private final dataaccess.Data Data;
+    private final dataaccess.Data data;
     private final Services services;
 
     public Server() {
         this.handler = new ArrayList<>();
         try {
-            this.Data = new Data(DataType.DB);
+            this.data = new Data(DataType.DB);
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
-        this.services = new Services(Data);
+        this.services = new Services(data);
         this.setupHandlers();
     }
 

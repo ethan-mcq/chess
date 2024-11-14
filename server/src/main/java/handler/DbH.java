@@ -7,7 +7,7 @@ import spark.*;
 
 public class DbH extends BaseH {
 
-    private static final Gson gson = new Gson();
+    private static final Gson GsonString = new Gson();
 
     public DbH(Services services) {
         super(services);
@@ -36,6 +36,6 @@ public class DbH extends BaseH {
         this.services.fetchClientService(UserS.class).deleteAll();
 
         this.setSuccessHeaders(httpResponse);
-        return gson.toJson(new Object());
+        return GsonString.toJson(new Object());
     }
 }

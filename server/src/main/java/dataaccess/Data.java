@@ -4,17 +4,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Data {
-    private final DataType DataType;
+    private final DataType dataType;
     private final Map<Class<? extends BaseDao>, BaseDao> clientData;
 
-    public Data(DataType DataType) throws DataAccessException {
-        this.DataType = DataType;
+    public Data(DataType dataType) throws DataAccessException {
+        this.dataType = dataType;
         this.clientData = new ConcurrentHashMap<>();
         this.initializeClientData();
     }
 
     private void initializeClientData() throws DataAccessException {
-        if (DataType == DataType.MEM_DATA) {
+        if (dataType == DataType.MEM_DATA) {
             clientData.put(GameDao.class, new GameMdao());
             clientData.put(AuthDao.class, new AuthMdao());
             clientData.put(UserDao.class, new UserMdao());

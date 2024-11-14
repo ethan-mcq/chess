@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 
 public class AuthH extends BaseH {
 
-    private static final Gson gson = new Gson();
+    private static final Gson GsonString = new Gson();
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
     public AuthH(Services services) {
@@ -37,7 +37,7 @@ public class AuthH extends BaseH {
         }
 
         this.setSuccessHeaders(httpResponse);
-        return gson.toJson(auth);
+        return GsonString.toJson(auth);
     }
 
     /**
@@ -53,7 +53,7 @@ public class AuthH extends BaseH {
         authS.logout(authToken);
 
         this.setSuccessHeaders(httpResponse);
-        return gson.toJson(new Object());
+        return GsonString.toJson(new Object());
     }
 
     /**
