@@ -47,12 +47,14 @@ public class authS extends baseS {
 
     /**
      * Logs out the user by removing the authentication token.
+     *
      * @param authToken The authentication token
+     * @return
      * @throws DataAccessException If there is an issue accessing data
      */
-    public void logout(String authToken) throws DataAccessException {
+    public auth logout(String authToken) throws DataAccessException {
         authDAO authDataAccess = this.dataAccess.fetchClientData(authDAO.class);
-        authDataAccess.removeAuth(authToken);
+        return authDataAccess.removeAuth(authToken);
     }
 
     /**

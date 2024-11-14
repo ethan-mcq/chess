@@ -67,13 +67,13 @@ public class gameMDAO implements gameDAO {
     }
 
     private gameData createNewGameData(gameData gameData, String whiteUsername, String blackUsername) {
-        return new gameData(gameData.gameID(), gameData.gameName(), gameData.game(), whiteUsername, blackUsername);
+        return new gameData(gameData.gameID(), gameData.gameName(), whiteUsername, blackUsername, gameData.game());
     }
 
     @Override
     public gameData createGame(gameData gameData) throws DataAccessException {
         int newGameID = gameDataMap.size() + 1;
-        gameData newGameData = new gameData(newGameID, gameData.gameName(), gameData.game(), gameData.blackUsername(), gameData.whiteUsername());
+        gameData newGameData = new gameData(newGameID, gameData.gameName(), gameData.blackUsername(), gameData.whiteUsername(), gameData.game());
         gameDataMap.put(newGameID, newGameData);
         return newGameData;
     }

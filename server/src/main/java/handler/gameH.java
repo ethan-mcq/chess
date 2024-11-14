@@ -78,7 +78,7 @@ public class gameH extends baseH {
             throw new problem("Bad Request", 400);
         }
 
-        gameData game = new gameData(0, created.gameName(), new ChessGame(), null, null);
+        gameData game = new gameData(0, created.gameName(), null, null, new ChessGame());
         gameData newGame = gameService.createGame(game);
 
         this.setSuccessHeaders(httpResponse);

@@ -24,10 +24,7 @@ public class userMDAO implements userDAO {
         users.put(user.username(), user);
         return user;
     }
-    @Override
-    public void deleteUser(String username) throws DataAccessException {
-        users.remove(username);
-    }
+
     @Override
     public void deleteAllUsers() throws DataAccessException {
         users.clear();

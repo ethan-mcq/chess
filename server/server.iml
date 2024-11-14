@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/src/test/java/passoff/server" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -16,5 +18,7 @@
     <orderEntry type="library" name="sparkjava.spark.core" level="project" />
     <orderEntry type="library" name="slf4j.simple" level="project" />
     <orderEntry type="library" name="mindrot.jbcrypt" level="project" />
-</component>
+    <orderEntry type="library" name="github.javaxcel.core" level="project" />
+    <orderEntry type="library" name="mysql.connector.j" level="project" />
+  </component>
 </module>

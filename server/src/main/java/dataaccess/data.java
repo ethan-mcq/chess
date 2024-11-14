@@ -5,18 +5,24 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class data {
     private final dataTypes dataTypes;
-    private final Map<Class<? extends baseDAO>, baseDAO> clientData = new ConcurrentHashMap<>();
+    private final Map<Class<? extends baseDAO>, baseDAO> clientData;
 
-    public data(dataTypes dataTypes) {
+    public data(dataTypes dataTypes) throws DataAccessException {
         this.dataTypes = dataTypes;
-        initializeClientData();
+        this.clientData = new ConcurrentHashMap<>();
+        this.initializeClientData();
     }
 
-    private void initializeClientData() {
+    private void initializeClientData() throws DataAccessException {
         if (dataTypes == dataaccess.dataTypes.MEM_DATA) {
             clientData.put(gameDAO.class, new gameMDAO());
             clientData.put(authDAO.class, new authMDAO());
             clientData.put(userDAO.class, new userMDAO());
+        }else{
+            Database.Create();
+            clientData.put(userDAO.class, new UserSqlDai());
+            clientData.put(gameDAO.class, new GameSqlDai());
+            clientData.put(authDAO.class, new AuthSqlDai());
         }
     }
 
