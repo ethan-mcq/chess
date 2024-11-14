@@ -57,8 +57,12 @@ public class ChessMove {
 
     @Override // This is to make sure that all objects are of the same type and value
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         ChessMove that = (ChessMove) obj;
         return startPosition.equals(that.startPosition) && endPosition.equals(that.endPosition) &&
                 Objects.equals(promotionPiece, that.promotionPiece);

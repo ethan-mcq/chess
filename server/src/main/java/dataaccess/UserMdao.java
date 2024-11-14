@@ -4,12 +4,12 @@ import model.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class userMDAO implements userDAO {
+public class UserMdao implements UserDao {
 
-    Map<String, user> users = new HashMap<>();
+    Map<String, UserM> users = new HashMap<>();
 
     @Override
-    public user getUser(String username) throws DataAccessException {
+    public UserM getUser(String username) throws DataAccessException {
         if(users.containsKey(username)) {
             return users.get(username);
         }
@@ -17,7 +17,7 @@ public class userMDAO implements userDAO {
     }
 
     @Override
-    public user insertUser(user user) throws DataAccessException {
+    public UserM insertUser(UserM user) throws DataAccessException {
         if(users.containsKey(user.username())){
             return null;
         }

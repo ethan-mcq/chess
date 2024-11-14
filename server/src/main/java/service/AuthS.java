@@ -1,47 +1,47 @@
 package service;
 
 import dataaccess.*;
-import model.auth;
-import model.login;
-import model.user;
+import model.Auth;
+import model.Login;
+import model.UserM;
 import java.util.UUID;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class authS extends baseS {
+public class AuthS extends BaseS {
 
-    public authS(data dataAccess) {
+    public AuthS(Data dataAccess) {
         super(dataAccess);
     }
 
     /**
-     * Authenticates the user based on login details.
-     * @param loginRequest The login request details
+     * Authenticates the user based on Login details.
+     * @param loginRequest The Login request details
      * @return The authentication token if successful, null otherwise
-     * @throws DataAccessException If there is an issue accessing data
+     * @throws DataAccessException If there is an issue accessing Data
      */
-    public auth login(login loginRequest) throws DataAccessException {
-        authDAO authDAO = this.dataAccess.fetchClientData(authDAO.class);
-        userDAO userDAO = this.dataAccess.fetchClientData(userDAO.class);
+    public Auth login(Login loginRequest) throws DataAccessException {
+        AuthDao authDAO = this.dataAccess.fetchClientData(AuthDao.class);
+        UserDao userDAO = this.dataAccess.fetchClientData(UserDao.class);
 
-        user user = userDAO.getUser(loginRequest.username());
+        UserM user = userDAO.getUser(loginRequest.username());
         if (user == null) {
             return null;
         }
 
         if (isPasswordMatch(loginRequest.password(), user.password())) {
-            return authDAO.insertAuth(new auth(generateUUID(), loginRequest.username()));
+            return authDAO.insertAuth(new Auth(generateUUID(), loginRequest.username()));
         }
         return null;
     }
 
     /**
-     * Retrieves authentication data associated with the given token.
+     * Retrieves authentication Data associated with the given token.
      * @param authToken The authentication token
-     * @return The authentication data
-     * @throws DataAccessException If there is an issue accessing data
+     * @return The authentication Data
+     * @throws DataAccessException If there is an issue accessing Data
      */
-    public auth getAuthData(String authToken) throws DataAccessException {
-        authDAO authDAO = this.dataAccess.fetchClientData(authDAO.class);
+    public Auth getAuthData(String authToken) throws DataAccessException {
+        AuthDao authDAO = this.dataAccess.fetchClientData(AuthDao.class);
         return authDAO.getAuth(authToken);
     }
 
@@ -50,19 +50,19 @@ public class authS extends baseS {
      *
      * @param authToken The authentication token
      * @return
-     * @throws DataAccessException If there is an issue accessing data
+     * @throws DataAccessException If there is an issue accessing Data
      */
-    public auth logout(String authToken) throws DataAccessException {
-        authDAO authDataAccess = this.dataAccess.fetchClientData(authDAO.class);
+    public Auth logout(String authToken) throws DataAccessException {
+        AuthDao authDataAccess = this.dataAccess.fetchClientData(AuthDao.class);
         return authDataAccess.removeAuth(authToken);
     }
 
     /**
      * Deletes all authentication tokens.
-     * @throws DataAccessException If there is an issue accessing data
+     * @throws DataAccessException If there is an issue accessing Data
      */
     public void deleteAll() throws DataAccessException {
-        authDAO authDataAccess = this.dataAccess.fetchClientData(authDAO.class);
+        AuthDao authDataAccess = this.dataAccess.fetchClientData(AuthDao.class);
         authDataAccess.removeAuth();
     }
 

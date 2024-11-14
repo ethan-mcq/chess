@@ -7,99 +7,137 @@ import model.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class GameSqlDai extends BaseSqlDai implements gameDAO {
+/**
+ * Data Access Implementation for managing Game-related SQL operations.
+ */
+public class GameSqlDai extends BaseSqlDai implements GameDao {
+
+    /**
+     * Initializes a new instance of the GameSqlDai class.
+     *
+     * @throws DataAccessException If an error occurs during initialization
+     */
     public GameSqlDai() throws DataAccessException {
         super();
     }
 
+    /**
+     * Initializes database tables specific to games.
+     *
+     * @throws DataAccessException If an error occurs during initialization
+     */
     @Override
-    protected void initalizeDatabaseTables() throws DataAccessException{
-        String sql = "CREATE TABLE IF NOT EXISTS games (";
-        sql += "id INTEGER PRIMARY KEY AUTO_INCREMENT,";
-        sql += "name VARCHAR(255) NOT NULL,";
-        sql += "white_username VARCHAR(255) DEFAULT NULL,";
-        sql += "black_username VARCHAR(255) DEFAULT NULL,";
-        sql += "game TEXT NOT NULL)";
+    protected void initializeDatabaseTables() throws DataAccessException {
+        String sqlInjection = "CREATE TABLE IF NOT EXISTS games (" +
+                "id INTEGER PRIMARY KEY AUTO_INCREMENT," +
+                "name VARCHAR(255) NOT NULL," +
+                "white_username VARCHAR(255) DEFAULT NULL," +
+                "black_username VARCHAR(255) DEFAULT NULL," +
+                "game TEXT NOT NULL)";
 
-        this.executeSqlUpdate(sql);
+        executeSqlUpdate(sqlInjection);
     }
 
+    /**
+     * Retrieves all games from the database.
+     *
+     * @return A list of all games
+     * @throws DataAccessException If an error occurs during retrieval
+     */
     @Override
-    public gameList getAllGames() throws DataAccessException {
-        String sql = "SELECT id, name, white_username, black_username, game FROM games";
-        ArrayList<gameResponse> games = new ArrayList<>();
+    public GameList getAllGames() throws DataAccessException {
+        String sqlInjection = "SELECT id, name, white_username, black_username, game FROM games";
+        ArrayList<GameResponse> games = new ArrayList<>();
 
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement(sql)) {
-                try (var resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        int id = resultSet.getInt("id");
-                        String name = resultSet.getString("name");
-                        String whiteUsername = resultSet.getString("white_username");
-                        String blackUsername = resultSet.getString("black_username");
-                        games.add(new gameResponse(id, whiteUsername, blackUsername, name));
-                    }
+        try (var conn = DatabaseManager.getConnection();
+             var preparedStatement = conn.prepareStatement(sqlInjection);
+             var resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String whiteUsername = resultSet.getString("white_username");
+                String blackUsername = resultSet.getString("black_username");
+                games.add(new GameResponse(id, whiteUsername, blackUsername, name));
+            }
+        } catch (SQLException exception) {
+            throw new DataAccessException("Error retrieving games: " + exception.getMessage());
+        }
+        return new GameList(games);
+    }
+
+    /**
+     * Retrieves game Data for a specified game ID.
+     *
+     * @param gameId The ID of the game to retrieve
+     * @return The game Data
+     * @throws DataAccessException If an error occurs during retrieval
+     */
+    @Override
+    public GameData getGames(int gameId) throws DataAccessException {
+        String sqlInjection = "SELECT id, name, white_username, black_username, game FROM games WHERE id = ?";
+        try (var conn = DatabaseManager.getConnection();
+             var preparedStatement = conn.prepareStatement(sqlInjection)) {
+            preparedStatement.setInt(1, gameId);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    String whiteUsername = resultSet.getString("white_username");
+                    String blackUsername = resultSet.getString("black_username");
+                    ChessGame game = deserializeGameData(resultSet.getString("game"));
+                    return new GameData(id, name, whiteUsername, blackUsername, game);
                 }
             }
-        } catch (SQLException e) {
-            throw new DataAccessException("Error retrieving games: " + e.getMessage());
+        } catch (SQLException exception) {
+            throw new DataAccessException("Error retrieving game: " + exception.getMessage());
         }
-        return new gameList(games);
+        return null; // If no game is found, return null
     }
 
+    /**
+     * Adds a player to an existing game.
+     *
+     * @param join Information about the player joining the game
+     * @return The updated game Data or null if unsuccessful
+     * @throws DataAccessException If an error occurs during the Join operation
+     */
     @Override
-    public gameData getGames(int gameId) throws DataAccessException {
-        String sql = "SELECT id, name, white_username, black_username, game FROM games WHERE id = ?";
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.setInt(1, gameId);
-                try (var resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        int id = resultSet.getInt("id");
-                        String name = resultSet.getString("name");
-                        String whiteUsername = resultSet.getString("white_username");
-                        String blackUsername = resultSet.getString("black_username");
-                        ChessGame game = this.deserializeGameData(resultSet.getString("game"));
-                        return new gameData(id,name,whiteUsername,blackUsername,game);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new DataAccessException(e.getMessage());
-        }
-        return null;
-    }
-
-    @Override
-    public gameData joinGame(join join) throws DataAccessException {
-        String sql;
-        if (join.playerColor().equals("WHITE")) {
-            sql = "UPDATE games SET white_username = ? WHERE id = ? AND white_username IS NULL";
+    public GameData joinGame(Join join) throws DataAccessException {
+        String sqlInjection;
+        if ("WHITE".equals(join.playerColor())) {
+            sqlInjection = "UPDATE games SET white_username = ? WHERE id = ? AND white_username IS NULL";
         } else {
-            sql = "UPDATE games SET black_username = ? WHERE id = ? AND black_username IS NULL";
+            sqlInjection = "UPDATE games SET black_username = ? WHERE id = ? AND black_username IS NULL";
         }
 
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.setString(1, join.username());
-                preparedStatement.setInt(2, join.gameID());
+        try (var conn = DatabaseManager.getConnection();
+             var preparedStatement = conn.prepareStatement(sqlInjection)) {
+            preparedStatement.setString(1, join.username());
+            preparedStatement.setInt(2, join.gameID());
 
-                int affectedRows = preparedStatement.executeUpdate();
-                if (affectedRows > 0) {
-                    return getGames(join.gameID());
-                } else {
-                    return null;
-                }
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                return getGames(join.gameID());
+            } else {
+                return null; // If no rows were affected, the Join operation was unsuccessful
             }
-        } catch (SQLException e) {
-            throw new DataAccessException("Error joining game: " + e.getMessage());
+        } catch (SQLException exception) {
+            throw new DataAccessException("Error joining game: " + exception.getMessage());
         }
     }
 
+    /**
+     * Creates a new game.
+     *
+     * @param gameData The Data for the game to be created
+     * @return The created game Data
+     * @throws DataAccessException If an error occurs during the creation
+     */
     @Override
-    public gameData createGame(gameData gameData) throws DataAccessException {
-        String sql = "INSERT INTO games (name, white_username, black_username, game) VALUES(?,?,?,?)";
-        int gameId = this.executeSqlUpdateGetId(sql,
+    public GameData createGame(GameData gameData) throws DataAccessException {
+        String sqlInjection = "INSERT INTO games (name, white_username, black_username, game) VALUES(?, ?, ?, ?)";
+        int gameId = executeSqlUpdateAndGetId(sqlInjection,
                 gameData.gameName(),
                 gameData.whiteUsername() == null ? null : gameData.whiteUsername(),
                 gameData.blackUsername() == null ? null : gameData.blackUsername(),
@@ -108,17 +146,25 @@ public class GameSqlDai extends BaseSqlDai implements gameDAO {
         return getGames(gameId);
     }
 
+    /**
+     * Deletes all games from the database.
+     *
+     * @throws DataAccessException If an error occurs during the deletion
+     */
     @Override
     public void deleteAllGames() throws DataAccessException {
-        String sql = "TRUNCATE games";
-        this.executeSqlUpdate(sql);
+        String sqlInjection = "TRUNCATE games";
+        executeSqlUpdate(sqlInjection);
     }
 
-
-    private ChessGame deserializeGameData(String json){
+    /**
+     * Deserializes the game Data from a JSON string.
+     *
+     * @param json The JSON string representing the game Data
+     * @return The deserialized ChessGame object
+     */
+    private ChessGame deserializeGameData(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, ChessGame.class);
     }
-
-
 }

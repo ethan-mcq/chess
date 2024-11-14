@@ -5,12 +5,12 @@ import model.*;
 import service.*;
 import spark.*;
 
-public abstract class baseH {
+public abstract class BaseH {
 
-    protected final services services;
+    protected final Services services;
     protected String root;
 
-    public baseH(services services) {
+    public BaseH(Services services) {
         this.services = services;
     }
 
@@ -31,16 +31,16 @@ public abstract class baseH {
     /**
      * Validates the authorization token in the request.
      * @param httpRequest The HTTP request
-     * @return true if the auth token is valid, false otherwise
-     * @throws DataAccessException If there is an issue accessing data
+     * @return true if the Auth token is valid, false otherwise
+     * @throws DataAccessException If there is an issue accessing Data
      */
     public boolean validAuthToken(Request httpRequest) throws DataAccessException {
         String authToken = httpRequest.headers("Authorization");
         if (authToken == null) {
             return false;
         }
-        authS authService = this.services.fetchClientService(authS.class);
-        auth authReturn = authService.getAuthData(authToken);
+        AuthS authService = this.services.fetchClientService(AuthS.class);
+        Auth authReturn = authService.getAuthData(authToken);
         return authReturn != null;
     }
 
@@ -52,7 +52,7 @@ public abstract class baseH {
     public Route verifyAuth(Route route) {
         return (httpRequest, httpResponse) -> {
             if (!validAuthToken(httpRequest)) {
-                throw new problem("unauthorized", 401);
+                throw new Problem("unauthorized", 401);
             }
             return route.handle(httpRequest, httpResponse);
         };

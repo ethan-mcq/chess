@@ -64,8 +64,12 @@ public class ChessBoard {
 
     @Override //We wont need this until we are needing to print the board to the screen
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         ChessBoard that = (ChessBoard) obj;
         return Arrays.deepEquals(squares, that.squares);
     }

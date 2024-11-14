@@ -10,11 +10,11 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class gameH extends baseH {
+public class GameH extends BaseH {
 
     private static final Gson gson = new Gson();
 
-    public gameH(services services) {
+    public GameH(Services services) {
         super(services);
         this.root = "/game";
     }
@@ -27,34 +27,34 @@ public class gameH extends baseH {
     }
 
     /**
-     * Handles the request to join a game.
+     * Handles the request to Join a game.
      * @param httpRequest The HTTP request
      * @param httpResponse The HTTP response
      * @return JSON representation of the response
-     * @throws problem If there is an issue with the join request
-     * @throws DataAccessException If there is an issue accessing data
+     * @throws Problem If there is an issue with the Join request
+     * @throws DataAccessException If there is an issue accessing Data
      */
-    public Object joinGame(Request httpRequest, Response httpResponse) throws problem, DataAccessException {
-        gameS gameService = this.services.fetchClientService(gameS.class);
-        authS authService = this.services.fetchClientService(authS.class);
+    public Object joinGame(Request httpRequest, Response httpResponse) throws Problem, DataAccessException {
+        GameS gameService = this.services.fetchClientService(GameS.class);
+        AuthS authService = this.services.fetchClientService(AuthS.class);
         String authToken = httpRequest.headers("Authorization");
 
-        auth auth = authService.getAuthData(authToken);
+        Auth auth = authService.getAuthData(authToken);
         String username = auth.username();
 
         JsonObject jsonObject = gson.fromJson(httpRequest.body(), JsonObject.class);
         jsonObject.addProperty("username", username);
         String modifiedJson = gson.toJson(jsonObject);
 
-        join joinGame = join.fromJson(modifiedJson);
+        Join joinGame = Join.fromJson(modifiedJson);
 
         if (joinGame == null) {
-            throw new problem("Bad Request", 400);
+            throw new Problem("Bad Request", 400);
         }
 
-        gameData game = gameService.joinGame(joinGame);
+        GameData game = gameService.joinGame(joinGame);
         if (game == null) {
-            throw new problem("Game Taken", 403);
+            throw new Problem("Game Taken", 403);
         }
 
         this.setSuccessHeaders(httpResponse);
@@ -67,22 +67,22 @@ public class gameH extends baseH {
      * @param httpRequest The HTTP request
      * @param httpResponse The HTTP response
      * @return JSON representation of the response
-     * @throws DataAccessException If there is an issue accessing data
-     * @throws problem If there is an issue with the create request
+     * @throws DataAccessException If there is an issue accessing Data
+     * @throws Problem If there is an issue with the create request
      */
-    public Object createGame(Request httpRequest, Response httpResponse) throws DataAccessException, problem {
-        gameS gameService = this.services.fetchClientService(gameS.class);
-        createRequest created = createRequest.fromJson(httpRequest.body());
+    public Object createGame(Request httpRequest, Response httpResponse) throws DataAccessException, Problem {
+        GameS gameService = this.services.fetchClientService(GameS.class);
+        CreateRequest created = CreateRequest.fromJson(httpRequest.body());
 
         if (created == null) {
-            throw new problem("Bad Request", 400);
+            throw new Problem("Bad Request", 400);
         }
 
-        gameData game = new gameData(0, created.gameName(), null, null, new ChessGame());
-        gameData newGame = gameService.createGame(game);
+        GameData game = new GameData(0, created.gameName(), null, null, new ChessGame());
+        GameData newGame = gameService.createGame(game);
 
         this.setSuccessHeaders(httpResponse);
-        return gson.toJson(new createResponse(newGame.gameID()));
+        return gson.toJson(new CreateResponse(newGame.gameID()));
     }
 
     /**
@@ -90,11 +90,11 @@ public class gameH extends baseH {
      * @param httpRequest The HTTP request
      * @param httpResponse The HTTP response
      * @return JSON representation of the list of games
-     * @throws DataAccessException If there is an issue accessing data
+     * @throws DataAccessException If there is an issue accessing Data
      */
     public Object getListOfGames(Request httpRequest, Response httpResponse) throws DataAccessException {
-        gameS gameService = this.services.fetchClientService(gameS.class);
-        gameList gameListResult = gameService.getAllGames();
+        GameS gameService = this.services.fetchClientService(GameS.class);
+        GameList gameListResult = gameService.getAllGames();
 
         Map<String, Object> jsonResponse = new HashMap<>();
         jsonResponse.put("games", gameListResult.getGames());

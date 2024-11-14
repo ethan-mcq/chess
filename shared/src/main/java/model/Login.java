@@ -2,11 +2,11 @@ package model;
 
 import com.google.gson.Gson;
 
-public record login (String username, String password) {
+public record Login(String username, String password) {
     private static final Gson GSON = new Gson();
 
-    public static login fromJson(String json) {
-        login login = GSON.fromJson(json, login.class);
+    public static Login fromJson(String json) {
+        Login login = GSON.fromJson(json, Login.class);
         if (login == null || !login.isValid()) {
             return null;
         }

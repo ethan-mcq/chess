@@ -5,11 +5,11 @@ import dataaccess.*;
 import service.*;
 import spark.*;
 
-public class dbH extends baseH {
+public class DbH extends BaseH {
 
     private static final Gson gson = new Gson();
 
-    public dbH(services services) {
+    public DbH(Services services) {
         super(services);
         this.root = "/db";
     }
@@ -24,16 +24,16 @@ public class dbH extends baseH {
     }
 
     /**
-     * Clears all data from the database.
+     * Clears all Data from the database.
      * @param httpRequest The HTTP request
      * @param httpResponse The HTTP response
      * @return JSON representation of an empty object
-     * @throws DataAccessException If there is an issue accessing data
+     * @throws DataAccessException If there is an issue accessing Data
      */
     public Object clearData(Request httpRequest, Response httpResponse) throws DataAccessException {
-        this.services.fetchClientService(authS.class).deleteAll();
-        this.services.fetchClientService(gameS.class).deleteAll();
-        this.services.fetchClientService(userS.class).deleteAll();
+        this.services.fetchClientService(AuthS.class).deleteAll();
+        this.services.fetchClientService(GameS.class).deleteAll();
+        this.services.fetchClientService(UserS.class).deleteAll();
 
         this.setSuccessHeaders(httpResponse);
         return gson.toJson(new Object());

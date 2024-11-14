@@ -2,9 +2,9 @@ package model;
 
 import com.google.gson.Gson;
 
-public record user (String username, String password, String email) {
-    public static user fromJson(String json) {
-        user userData = new Gson().fromJson(json, user.class);
+public record UserM(String username, String password, String email) {
+    public static UserM fromJson(String json) {
+        UserM userData = new Gson().fromJson(json, UserM.class);
         if (userData == null || !userData.isValid()) {
             return null;
         }

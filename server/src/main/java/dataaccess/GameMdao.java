@@ -7,26 +7,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class gameMDAO implements gameDAO {
+public class GameMdao implements GameDao {
 
-    private final Map<Integer, gameData> gameDataMap = new ConcurrentHashMap<>();
+    private final Map<Integer, GameData> gameDataMap = new ConcurrentHashMap<>();
 
     @Override
-    public gameList getAllGames() throws DataAccessException {
-        List<gameResponse> gameDataResponses = new ArrayList<>();
-        for (gameData gameData : gameDataMap.values()) {
-            gameDataResponses.add(new gameResponse(
+    public GameList getAllGames() throws DataAccessException {
+        List<GameResponse> gameDataResponses = new ArrayList<>();
+        for (GameData gameData : gameDataMap.values()) {
+            gameDataResponses.add(new GameResponse(
                     gameData.gameID(),
                     gameData.whiteUsername(),
                     gameData.blackUsername(),
                     gameData.gameName()
             ));
         }
-        return new gameList(new ArrayList<>(gameDataResponses));
+        return new GameList(new ArrayList<>(gameDataResponses));
     }
 
     @Override
-    public gameData getGames(int gameID) throws DataAccessException {
+    public GameData getGames(int gameID) throws DataAccessException {
         if(gameDataMap.containsKey(gameID)) {
             return gameDataMap.get(gameID);
         }
@@ -34,13 +34,13 @@ public class gameMDAO implements gameDAO {
     }
 
     @Override
-    public gameData joinGame(join joinRequest) throws DataAccessException {
+    public GameData joinGame(Join joinRequest) throws DataAccessException {
         int gameID = joinRequest.gameID();
         if (!gameDataMap.containsKey(gameID)) {
             return null;
         }
 
-        gameData gameData = gameDataMap.get(gameID);
+        GameData gameData = gameDataMap.get(gameID);
         String playerColor = joinRequest.playerColor();
 
         if ("WHITE".equals(playerColor)) {
@@ -50,32 +50,32 @@ public class gameMDAO implements gameDAO {
         }
     }
 
-    private gameData joinGameAsWhite(join joinRequest, gameData gameData) {
+    private GameData joinGameAsWhite(Join joinRequest, GameData gameData) {
         if (gameData.whiteUsername() == null) {
-            gameData newGameData = createNewGameData(gameData, joinRequest.username(), gameData.blackUsername());
+            GameData newGameData = createNewGameData(gameData, joinRequest.username(), gameData.blackUsername());
             gameDataMap.put(newGameData.gameID(), newGameData);
             return newGameData;
         }
         return null;
     }
 
-    private gameData joinGameAsBlack(join joinRequest, gameData gameData) {
+    private GameData joinGameAsBlack(Join joinRequest, GameData gameData) {
         if (gameData.blackUsername() == null) {
-            gameData newGameData = createNewGameData(gameData, gameData.whiteUsername(), joinRequest.username());
+            GameData newGameData = createNewGameData(gameData, gameData.whiteUsername(), joinRequest.username());
             gameDataMap.put(newGameData.gameID(), newGameData);
             return newGameData;
         }
         return null;
     }
 
-    private gameData createNewGameData(gameData gameData, String whiteUsername, String blackUsername) {
-        return new gameData(gameData.gameID(), gameData.gameName(), whiteUsername, blackUsername, gameData.game());
+    private GameData createNewGameData(GameData gameData, String whiteUsername, String blackUsername) {
+        return new GameData(gameData.gameID(), gameData.gameName(), whiteUsername, blackUsername, gameData.game());
     }
 
     @Override
-    public gameData createGame(gameData gameData) throws DataAccessException {
+    public GameData createGame(GameData gameData) throws DataAccessException {
         int newGameID = gameDataMap.size() + 1;
-        gameData newGameData = new gameData(newGameID, gameData.gameName(), gameData.blackUsername(), gameData.whiteUsername(), gameData.game());
+        GameData newGameData = new GameData(newGameID, gameData.gameName(), gameData.blackUsername(), gameData.whiteUsername(), gameData.game());
         gameDataMap.put(newGameID, newGameData);
         return newGameData;
     }

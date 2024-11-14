@@ -31,13 +31,14 @@ public class PawnMoves implements PieceMoves {
         int col = position.getColumn();
         int moveRow = row + colorDirectionAssignment; // we only move rows
 
-        if (moveRow > 0 && moveRow < boardWidthLen && board.getPiece(new ChessPosition(moveRow, col)) == null) { // only move rows and cant move if piece is in front
+        if (moveRow > 0 && moveRow < boardWidthLen && board.getPiece(new ChessPosition(moveRow, col)) == null) {
             promotionMoves(position, new ChessPosition(moveRow, col), moves, colorDirectionAssignment);
 
             // Is it first move
             int startPosition = (colorDirectionAssignment == 1) ? 2 : 7;
             int secondMoveRow = row + 2 * colorDirectionAssignment;
-            if (row == startPosition && board.getPiece(new ChessPosition(moveRow, col)) == null && board.getPiece(new ChessPosition(secondMoveRow, col)) == null) {
+            if (row == startPosition && board.getPiece(new ChessPosition(moveRow, col)) == null
+                    && board.getPiece(new ChessPosition(secondMoveRow, col)) == null) {
                 moves.add(new ChessMove(position, new ChessPosition(secondMoveRow, col), null));
             }
         }

@@ -1,6 +1,6 @@
 package dataaccess;
 
-public enum dataTypes {
+public enum DataType {
     DB,
     MEM_DATA
 }

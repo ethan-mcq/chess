@@ -1,10 +1,11 @@
 package server;
 
+import service.Services;
 import spark.*;
 import dataaccess.*;
 import handler.*;
-import dataaccess.data;
-import service.services;
+import dataaccess.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,30 +14,30 @@ import com.google.gson.Gson;
 
 public class Server {
 
-    private final List<baseH> handler;
-    private final data Data;
-    private final service.services services;
+    private final List<BaseH> handler;
+    private final dataaccess.Data Data;
+    private final Services services;
 
     public Server() {
         this.handler = new ArrayList<>();
         try {
-            this.Data = new data(dataTypes.DB);
+            this.Data = new Data(DataType.DB);
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
-        this.services = new services(Data);
+        this.services = new Services(Data);
         this.setupHandlers();
     }
 
     private void setupHandlers() {
-        this.handler.add(new authH(services));
-        this.handler.add(new gameH(services));
-        this.handler.add(new userH(services));
-        this.handler.add(new dbH(services));
+        this.handler.add(new AuthH(services));
+        this.handler.add(new GameH(services));
+        this.handler.add(new UserH(services));
+        this.handler.add(new DbH(services));
     }
 
     private void initializeHandlers() {
-        for (baseH handler : handler) {
+        for (BaseH handler : handler) {
             handler.initHandler();
         }
     }
@@ -61,7 +62,7 @@ public class Server {
             throwProblem(problem, response);
         });
 
-        Spark.exception(problem.class, (problem, request, response) -> {
+        Spark.exception(Problem.class, (problem, request, response) -> {
             response.status(problem.getStatusCode());
             throwProblem(problem, response);
         });

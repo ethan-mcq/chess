@@ -6,36 +6,34 @@ import service.*;
 import spark.*;
 import com.google.gson.Gson;
 
-import javax.swing.*;
-
-public class authH extends baseH {
+public class AuthH extends BaseH {
 
     private static final Gson gson = new Gson();
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    public authH(services services) {
+    public AuthH(Services services) {
         super(services);
         this.root = "/session";
     }
 
     /**
-     * Handles user login request
+     * Handles user Login request
      * @param httpRequest The HTTP request
      * @param httpResponse The HTTP response
-     * @return JSON representation of the auth object
-     * @throws problem If there is an issue with the login request
-     * @throws DataAccessException If there is an issue accessing data
+     * @return JSON representation of the Auth object
+     * @throws Problem If there is an issue with the Login request
+     * @throws DataAccessException If there is an issue accessing Data
      */
-    public Object login(Request httpRequest, Response httpResponse) throws problem, DataAccessException {
-        login loginRequest = login.fromJson(httpRequest.body());
+    public Object login(Request httpRequest, Response httpResponse) throws Problem, DataAccessException {
+        Login loginRequest = Login.fromJson(httpRequest.body());
         if (loginRequest == null) {
-            throw new problem("Bad Request", 400);
+            throw new Problem("Bad Request", 400);
         }
 
-        authS authS = this.services.fetchClientService(authS.class);
-        auth auth = authS.login(loginRequest);
+        AuthS authS = this.services.fetchClientService(AuthS.class);
+        Auth auth = authS.login(loginRequest);
         if (auth == null) {
-            throw new problem("Unauthorized", 401);
+            throw new Problem("Unauthorized", 401);
         }
 
         this.setSuccessHeaders(httpResponse);
@@ -47,11 +45,11 @@ public class authH extends baseH {
      * @param httpRequest The HTTP request
      * @param httpResponse The HTTP response
      * @return Empty JSON object
-     * @throws DataAccessException If there is an issue accessing data
+     * @throws DataAccessException If there is an issue accessing Data
      */
     public Object logout(Request httpRequest, Response httpResponse) throws DataAccessException {
         String authToken = httpRequest.headers(AUTHORIZATION_HEADER);
-        authS authS = this.services.fetchClientService(authS.class);
+        AuthS authS = this.services.fetchClientService(AuthS.class);
         authS.logout(authToken);
 
         this.setSuccessHeaders(httpResponse);

@@ -101,7 +101,7 @@ public class ChessGame {
         if (piece.getTeamColor() == getTeamTurn() && validMoves.contains(move)) {
             // Pawn Promotion Logic
             if (piece.getPieceType() == ChessPiece.PieceType.PAWN &&
-                    (end.getRow() == 8 && piece.getTeamColor() == TeamColor.WHITE) || // have to make sure this is calculating the board size correctly
+                    (end.getRow() == 8 && piece.getTeamColor() == TeamColor.WHITE) ||
                     (end.getRow() == 1 && piece.getTeamColor() == TeamColor.BLACK)) {
 
                 if (move.getPromotionPiece() != null) {
@@ -135,12 +135,14 @@ public class ChessGame {
             for (int col = 1; col < 9; col++) {
                 ChessPosition pos = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(pos);
-                if (piece != null && piece.getTeamColor() != teamColor) {
-                    Collection<ChessMove> moves = piece.pieceMoves(board, pos);
-                    for (ChessMove move : moves) {
-                        if (move.getEndPosition().equals(kingPosition)) {
-                            return true;
-                        }
+                if (piece == null || piece.getTeamColor() == teamColor) {
+                    continue;
+                }
+
+                Collection<ChessMove> moves = piece.pieceMoves(board, pos);
+                for (ChessMove move : moves) {
+                    if (move.getEndPosition().equals(kingPosition)) {
+                        return true;
                     }
                 }
             }
@@ -243,8 +245,12 @@ public class ChessGame {
     }
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         ChessGame chessGame = (ChessGame) obj;
         return Objects.equals(board, chessGame.board) && teamTurn == chessGame.teamTurn;
     }

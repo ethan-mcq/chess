@@ -4,11 +4,11 @@ import model.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class authMDAO implements authDAO {
-    Map<String, auth> authHash = new HashMap<>();
+public class AuthMdao implements AuthDao {
+    Map<String, Auth> authHash = new HashMap<>();
 
     @Override
-    public auth getAuth(String authToken) throws DataAccessException {
+    public Auth getAuth(String authToken) throws DataAccessException {
         if(!authHash.containsKey(authToken)){
             return null;
         }
@@ -16,7 +16,7 @@ public class authMDAO implements authDAO {
     }
 
     @Override
-    public auth insertAuth(auth auth) throws DataAccessException {
+    public Auth insertAuth(Auth auth) throws DataAccessException {
         if(authHash.containsKey(auth.authToken())){
             return null;
         }
@@ -25,7 +25,7 @@ public class authMDAO implements authDAO {
     }
 
     @Override
-    public auth removeAuth(String authToken) throws DataAccessException {
+    public Auth removeAuth(String authToken) throws DataAccessException {
         return authHash.remove(authToken);
     }
     @Override

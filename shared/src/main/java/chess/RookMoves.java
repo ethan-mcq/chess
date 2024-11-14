@@ -39,7 +39,7 @@ public class RookMoves implements PieceMoves {
             // if after checking the spot == null we can move on and add that to the list of possible moves
             if (piece == null) {
                 moves.add(new ChessMove(startPosition, newPosition, null)); //promotion piece is not implemented right now I dont think
-            } else { // if piece != null, we need to see if it is on our team or the other. if its on the other team we can capture it and so its a valid move
+            } else {
                 if (piece.getTeamColor() != board.getPiece(startPosition).getTeamColor()) {
                     moves.add(new ChessMove(startPosition, newPosition, null));
                 }
