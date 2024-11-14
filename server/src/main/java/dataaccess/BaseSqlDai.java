@@ -1,6 +1,5 @@
 package dataaccess;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +12,7 @@ public abstract class BaseSqlDai {
     protected void initalizeDatabaseTables() throws DataAccessException {}
 
     protected void executeSqlUpdate(String statement, Object... params) throws DataAccessException {
-        try (var conn = Database.Connect()) {
+        try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 setParameters(preparedStatement, params);
                 preparedStatement.executeUpdate();
@@ -24,7 +23,7 @@ public abstract class BaseSqlDai {
     }
 
     protected int executeSqlUpdateGetId(String statement, Object... params) throws DataAccessException {
-        try (var conn = Database.Connect()) {
+        try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
                 setParameters(preparedStatement, params);
                 preparedStatement.executeUpdate();

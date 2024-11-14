@@ -1,5 +1,5 @@
 package model;
 
-public record gameResponse (int gameID, String gameName, String whiteUsername, String blackUsername) {
+public record gameResponse (int gameID, String whiteUsername, String blackUsername, String gameName) {
 
 }

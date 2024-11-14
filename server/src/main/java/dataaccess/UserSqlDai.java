@@ -24,7 +24,7 @@ public class UserSqlDai extends BaseSqlDai implements userDAO {
     @Override
     public user getUser(String username) throws DataAccessException {
         String sql = "SELECT email, password FROM userData WHERE username = ?";
-        try (var conn = Database.Connect()) {
+        try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, username);
                 try (var resultSet = preparedStatement.executeQuery()) {

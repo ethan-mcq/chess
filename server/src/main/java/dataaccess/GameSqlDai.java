@@ -29,7 +29,7 @@ public class GameSqlDai extends BaseSqlDai implements gameDAO {
         String sql = "SELECT id, name, white_username, black_username, game FROM games";
         ArrayList<gameResponse> games = new ArrayList<>();
 
-        try (var conn = Database.Connect()) {
+        try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(sql)) {
                 try (var resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
@@ -50,7 +50,7 @@ public class GameSqlDai extends BaseSqlDai implements gameDAO {
     @Override
     public gameData getGames(int gameId) throws DataAccessException {
         String sql = "SELECT id, name, white_username, black_username, game FROM games WHERE id = ?";
-        try (var conn = Database.Connect()) {
+        try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setInt(1, gameId);
                 try (var resultSet = preparedStatement.executeQuery()) {
@@ -79,7 +79,7 @@ public class GameSqlDai extends BaseSqlDai implements gameDAO {
             sql = "UPDATE games SET black_username = ? WHERE id = ? AND black_username IS NULL";
         }
 
-        try (var conn = Database.Connect()) {
+        try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, join.username());
                 preparedStatement.setInt(2, join.gameID());

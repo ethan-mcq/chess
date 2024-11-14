@@ -43,7 +43,7 @@ public class AuthSqlDai extends BaseSqlDai implements authDAO {
     @Override
     public auth getAuth(String authToken) throws DataAccessException {
         String sql = "SELECT username FROM sessions WHERE authToken = ?";
-        try (var conn = Database.Connect()) {
+        try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, authToken);
                 try (var resultSet = preparedStatement.executeQuery()) {

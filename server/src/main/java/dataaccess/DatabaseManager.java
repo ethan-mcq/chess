@@ -3,7 +3,7 @@ package dataaccess;
 import java.sql.*;
 import java.util.Properties;
 
-public class Database {
+public class DatabaseManager {
     private static final String DATABASE;
     private static final String USER;
     private static final String PASSWORD;
@@ -42,7 +42,7 @@ public class Database {
         }
     }
 
-    public static Connection Connect() throws DataAccessException {
+    public static Connection getConnection() throws DataAccessException {
         try {
             var conn = DriverManager.getConnection(URL, USER, PASSWORD);
             conn.setCatalog(DATABASE);

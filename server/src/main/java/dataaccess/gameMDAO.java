@@ -13,38 +13,40 @@ public class gameMDAO implements gameDAO {
 
     @Override
     public gameList getAllGames() throws DataAccessException {
-        List<gameResponse> gameDataResponses = gameDataMap.values().stream()
-                .map(gameData -> new gameResponse(
-                        gameData.gameID(),
-                        gameData.gameName(),
-                        gameData.whiteUsername(),
-                        gameData.blackUsername()))
-                .toList();
-
+        List<gameResponse> gameDataResponses = new ArrayList<>();
+        for (gameData gameData : gameDataMap.values()) {
+            gameDataResponses.add(new gameResponse(
+                    gameData.gameID(),
+                    gameData.whiteUsername(),
+                    gameData.blackUsername(),
+                    gameData.gameName()
+            ));
+        }
         return new gameList(new ArrayList<>(gameDataResponses));
     }
 
     @Override
     public gameData getGames(int gameID) throws DataAccessException {
-        return gameDataMap.get(gameID);
+        if(gameDataMap.containsKey(gameID)) {
+            return gameDataMap.get(gameID);
+        }
+        return null;
     }
 
     @Override
     public gameData joinGame(join joinRequest) throws DataAccessException {
         int gameID = joinRequest.gameID();
-        gameData gameData = gameDataMap.get(gameID);
-
-        if (gameData == null) {
+        if (!gameDataMap.containsKey(gameID)) {
             return null;
         }
 
-        switch (joinRequest.playerColor().toUpperCase()) {
-            case "WHITE":
-                return joinGameAsWhite(joinRequest, gameData);
-            case "BLACK":
-                return joinGameAsBlack(joinRequest, gameData);
-            default:
-                return null;
+        gameData gameData = gameDataMap.get(gameID);
+        String playerColor = joinRequest.playerColor();
+
+        if ("WHITE".equals(playerColor)) {
+            return joinGameAsWhite(joinRequest, gameData);
+        } else {
+            return joinGameAsBlack(joinRequest, gameData);
         }
     }
 

@@ -19,7 +19,7 @@ public class data {
             clientData.put(authDAO.class, new authMDAO());
             clientData.put(userDAO.class, new userMDAO());
         }else{
-            Database.Create();
+            DatabaseManager.Create();
             clientData.put(userDAO.class, new UserSqlDai());
             clientData.put(gameDAO.class, new GameSqlDai());
             clientData.put(authDAO.class, new AuthSqlDai());
