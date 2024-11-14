@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class GameH extends BaseH {
 
-    private static final Gson GsonString = new Gson();
+    private static final Gson GSON = new Gson();
 
     public GameH(Services services) {
         super(services);
@@ -42,9 +42,9 @@ public class GameH extends BaseH {
         Auth auth = authService.getAuthData(authToken);
         String username = auth.username();
 
-        JsonObject jsonObject = GsonString.fromJson(httpRequest.body(), JsonObject.class);
+        JsonObject jsonObject = GSON.fromJson(httpRequest.body(), JsonObject.class);
         jsonObject.addProperty("username", username);
-        String modifiedJson = GsonString.toJson(jsonObject);
+        String modifiedJson = GSON.toJson(jsonObject);
 
         Join joinGame = Join.fromJson(modifiedJson);
 
@@ -59,7 +59,7 @@ public class GameH extends BaseH {
 
         this.setSuccessHeaders(httpResponse);
         Map<String, Object> jsonResponse = new HashMap<>();
-        return GsonString.toJson(jsonResponse);
+        return GSON.toJson(jsonResponse);
     }
 
     /**
@@ -82,7 +82,7 @@ public class GameH extends BaseH {
         GameData newGame = gameService.createGame(game);
 
         this.setSuccessHeaders(httpResponse);
-        return GsonString.toJson(new CreateResponse(newGame.gameID()));
+        return GSON.toJson(new CreateResponse(newGame.gameID()));
     }
 
     /**
@@ -100,6 +100,6 @@ public class GameH extends BaseH {
         jsonResponse.put("games", gameListResult.getGames());
 
         this.setSuccessHeaders(httpResponse);
-        return GsonString.toJson(jsonResponse);
+        return GSON.toJson(jsonResponse);
     }
 }

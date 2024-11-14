@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 
 public class UserH extends BaseH {
 
-    private static final Gson GsonString = new Gson();
+    private static final Gson GSON = new Gson();
 
     public UserH(Services services) {
         super(services);
@@ -40,6 +40,6 @@ public class UserH extends BaseH {
         }
 
         this.setSuccessHeaders(httpResponse);
-        return GsonString.toJson(auth);
+        return GSON.toJson(auth);
     }
 }
