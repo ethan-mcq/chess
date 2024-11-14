@@ -20,12 +20,21 @@ public class BishopMoves implements PieceMoves {
         return moves;
     }
 
-    private void addMovesToArray(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, int rowDir, int colDir) {
+    private void addMovesToArray(ChessBoard board,
+                                 ChessPosition startPosition,
+                                 Collection<ChessMove> moves,
+                                 int rowDir,
+                                 int colDir) {
         int boardSize = 9;
         expandInDirection(board, startPosition, moves, rowDir, colDir, boardSize);
     }
 
-    private void expandInDirection(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, int rowDir, int colDir, int boardSize) {
+    private void expandInDirection(ChessBoard board,
+                                   ChessPosition startPosition,
+                                   Collection<ChessMove> moves,
+                                   int rowDir,
+                                   int colDir,
+                                   int boardSize) {
         ChessPosition currentPosition = startPosition;
 
         while (isWithinBoardLimits(currentPosition, rowDir, colDir, boardSize)) {
@@ -40,13 +49,20 @@ public class BishopMoves implements PieceMoves {
         }
     }
 
-    private boolean isWithinBoardLimits(ChessPosition position, int rowDir, int colDir, int boardSize) {
+    private boolean isWithinBoardLimits(ChessPosition position,
+                                        int rowDir,
+                                        int colDir,
+                                        int boardSize) {
         int newRow = position.getRow() + rowDir;
         int newCol = position.getColumn() + colDir;
         return newRow > 0 && newRow < boardSize && newCol > 0 && newCol < boardSize;
     }
 
-    private void addMoveOrCapture(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, ChessPosition newPosition, ChessPiece pieceAtNewPosition) {
+    private void addMoveOrCapture(ChessBoard board,
+             ChessPosition startPosition,
+             Collection<ChessMove> moves,
+             ChessPosition newPosition,
+             ChessPiece pieceAtNewPosition) {
         if (pieceAtNewPosition == null) {
             moves.add(new ChessMove(startPosition, newPosition, null));
         } else if (pieceAtNewPosition.getTeamColor() != board.getPiece(startPosition).getTeamColor()) {
