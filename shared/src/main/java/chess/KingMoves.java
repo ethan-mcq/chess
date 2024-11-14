@@ -1,14 +1,14 @@
 package chess;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class KingMoves implements PieceMoves {
 
     @Override
     public Collection<ChessMove> calculateMoves(ChessBoard board, ChessPosition position) {
-        Collection<ChessMove> moves = new ArrayList<>();
-        int[][] directions = {
+        Collection<ChessMove> potentialMoves = new ArrayList<>();
+        int[][] moveDirections = {
                 {1, 1}, // Up right
                 {1, -1}, // Up left
                 {-1, 1}, // Down right
@@ -18,25 +18,30 @@ public class KingMoves implements PieceMoves {
                 {0, 1}, // right
                 {0, -1} // left
         };
-        for (int[] direction : directions) {
-            addMovesToArray(board, position, moves, direction[0], direction[1]);
+        for (int[] moveVector : moveDirections) {
+            evaluateAndAddMove(board, position, potentialMoves, moveVector[0], moveVector[1]);
         }
 
-        return moves;
+        return potentialMoves;
     }
-    private void addMovesToArray(ChessBoard board, ChessPosition startPosition, Collection<ChessMove> moves, int rowDir, int colDir) {
-        int boardWidthLen = 9;
-        int startRow = startPosition.getRow();
-        int startCol = startPosition.getColumn();
-        int moveRow = startRow + rowDir;
-        int moveCol = startCol + colDir;
 
-        if (moveCol > 0 && moveCol < boardWidthLen && moveRow > 0 && moveRow < boardWidthLen) {
-            ChessPosition newPosition = new ChessPosition(moveRow, moveCol);
-            ChessPiece targetPiece = board.getPiece(newPosition);
-            if (targetPiece == null || targetPiece.getTeamColor() != board.getPiece(startPosition).getTeamColor()) {
-                moves.add(new ChessMove(startPosition, newPosition, null));
+    private void evaluateAndAddMove(ChessBoard board, ChessPosition currentPos, Collection<ChessMove> potentialMoves, int deltaRow, int deltaCol) {
+        int boardBoundary = 9;
+        int targetRow = currentPos.getRow() + deltaRow;
+        int targetCol = currentPos.getColumn() + deltaCol;
+
+        if (withinBounds(targetRow, targetCol, boardBoundary)) {
+            ChessPosition targetPosition = new ChessPosition(targetRow, targetCol);
+            ChessPiece pieceAtTarget = board.getPiece(targetPosition);
+            ChessPiece pieceAtCurrent = board.getPiece(currentPos);
+
+            if (pieceAtTarget == null || pieceAtTarget.getTeamColor() != pieceAtCurrent.getTeamColor()) {
+                potentialMoves.add(new ChessMove(currentPos, targetPosition, null));
             }
         }
+    }
+
+    private boolean withinBounds(int row, int col, int maxBoundary) {
+        return col > 0 && col < maxBoundary && row > 0 && row < maxBoundary;
     }
 }
