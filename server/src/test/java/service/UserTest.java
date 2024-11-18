@@ -12,24 +12,24 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UserTest {
 
-    private static Data DataSource;
-    private static UserS UserService;
-    private static UserDao UserDao;
-    private static AuthDao AuthDao;
+    private Data dataSource;
+    private UserS userService;
+    private UserDao userDao;
+    private AuthDao authDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
-        DataSource = new Data(DataType.MEM_DATA);
-        UserService = new UserS(DataSource);
-        UserDao = DataSource.fetchClientData(UserDao.class);
-        AuthDao = DataSource.fetchClientData(AuthDao.class);
+        dataSource = new Data(DataType.MEM_DATA);
+        userService = new UserS(dataSource);
+        userDao = dataSource.fetchClientData(UserDao.class);
+        authDao = dataSource.fetchClientData(AuthDao.class);
     }
 
     @Test
     @DisplayName("Create user with new username")
     public void testCreateUserNewUsername() throws DataAccessException {
         UserM newUser = new UserM("newUser", "password123", "newuser@mail.com");
-        Auth authResult = UserService.createUser(newUser);
+        Auth authResult = userService.createUser(newUser);
 
         assertNotNull(authResult, "Auth result should not be null");
         assertEquals("newUser", authResult.username(), "Usernames should match");
@@ -39,10 +39,10 @@ public class UserTest {
     @DisplayName("Create user with existing username")
     public void testCreateUserExistingUsername() throws DataAccessException {
         UserM existingUser = new UserM("existingUser", "password123", "existinguser@mail.com");
-        UserService.createUser(existingUser);
+        userService.createUser(existingUser);
 
         UserM newUserWithSameUsername = new UserM("existingUser", "newpassword", "newuser@mail.com");
-        Auth authResult = UserService.createUser(newUserWithSameUsername);
+        Auth authResult = userService.createUser(newUserWithSameUsername);
 
         assertNull(authResult, "Auth result should be null for existing username");
     }
@@ -53,12 +53,12 @@ public class UserTest {
         UserM user1 = new UserM("user1", "password123", "user1@mail.com");
         UserM user2 = new UserM("user2", "password123", "user2@mail.com");
 
-        UserService.createUser(user1);
-        UserService.createUser(user2);
+        userService.createUser(user1);
+        userService.createUser(user2);
 
-        UserService.deleteAll();
+        userService.deleteAll();
 
-        assertNull(UserDao.getUser("user1"), "User1 should be null after deletion");
-        assertNull(UserDao.getUser("user2"), "User2 should be null after deletion");
+        assertNull(userDao.getUser("user1"), "User1 should be null after deletion");
+        assertNull(userDao.getUser("user2"), "User2 should be null after deletion");
     }
 }

@@ -11,18 +11,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AuthTest {
 
-    private static Data DataSource;
-    private static AuthS AuthService;
-    private static AuthDao AuthDao;
-    private static UserDao UserDao;
+    private Data dataSource;
+    private AuthS authService;
+    private AuthDao authDao;
+    private UserDao userDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
 
-        DataSource = new Data(DataType.MEM_DATA);
-        AuthService = new AuthS(DataSource);
-        AuthDao = DataSource.fetchClientData(AuthDao.class);
-        UserDao = DataSource.fetchClientData(UserDao.class);
+        dataSource = new Data(DataType.MEM_DATA);
+        authService = new AuthS(dataSource);
+        authDao = dataSource.fetchClientData(AuthDao.class);
+        userDao = dataSource.fetchClientData(UserDao.class);
     }
 
     @Test
@@ -33,11 +33,11 @@ public class AuthTest {
         String hashedPassword = AuthS.hashPassword(password);
 
         UserM user = new UserM(username, hashedPassword, "email@mail.com");
-        UserDao.insertUser(user);
-        AuthDao.insertAuth(new Auth("validToken", username));
+        userDao.insertUser(user);
+        authDao.insertAuth(new Auth("validToken", username));
 
         Login loginRequest = new Login(username, password);
-        Auth authResult = AuthService.login(loginRequest);
+        Auth authResult = authService.login(loginRequest);
 
         assertNotNull(authResult);
         assertEquals(username, authResult.username());
@@ -52,10 +52,10 @@ public class AuthTest {
         String hashedWrongPassword = AuthS.hashPassword(wrongPassword);
 
         UserM user = new UserM(username, hashedWrongPassword, "email@mail.com");
-        UserDao.insertUser(user);
+        userDao.insertUser(user);
 
         Login loginRequest = new Login(username, password);
-        Auth authResult = AuthService.login(loginRequest);
+        Auth authResult = authService.login(loginRequest);
 
         assertNull(authResult);
     }
@@ -66,9 +66,9 @@ public class AuthTest {
         String authToken = "validToken";
 
         Auth auth = new Auth(authToken, "testUser");
-        AuthDao.insertAuth(auth);
+        authDao.insertAuth(auth);
 
-        Auth authResult = AuthService.getAuthData(authToken);
+        Auth authResult = authService.getAuthData(authToken);
 
         assertNotNull(authResult);
         assertEquals(authToken, authResult.authToken());
@@ -80,23 +80,23 @@ public class AuthTest {
         String authToken = "validToken";
 
         Auth auth = new Auth(authToken, "testUser");
-        AuthDao.insertAuth(auth);
+        authDao.insertAuth(auth);
 
-        AuthService.logout(authToken);
+        authService.logout(authToken);
 
-        Auth authResult = AuthDao.getAuth(authToken);
+        Auth authResult = authDao.getAuth(authToken);
         assertNull(authResult);
     }
 
     @Test
     @DisplayName("Delete all authentication tokens")
     public void testDeleteAll() throws DataAccessException {
-        AuthDao.insertAuth(new Auth("token1", "user1"));
-        AuthDao.insertAuth(new Auth("token2", "user2"));
+        authDao.insertAuth(new Auth("token1", "user1"));
+        authDao.insertAuth(new Auth("token2", "user2"));
 
-        AuthService.deleteAll();
+        authService.deleteAll();
 
-        assertNull(AuthDao.getAuth("token1"));
-        assertNull(AuthDao.getAuth("token2"));
+        assertNull(authDao.getAuth("token1"));
+        assertNull(authDao.getAuth("token2"));
     }
 }

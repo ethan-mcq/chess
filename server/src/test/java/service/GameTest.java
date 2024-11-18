@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameTest {
 
-    private static Data DataSource;
-    private static GameS GameService;
-    private static GameDao GameDao;
+    private Data dataSource;
+    private GameS gameService;
+    private GameDao gameDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
-        DataSource = new Data(DataType.MEM_DATA);
-        GameService = new GameS(DataSource);
-        GameDao = DataSource.fetchClientData(GameDao.class);
+        dataSource = new Data(DataType.MEM_DATA);
+        gameService = new GameS(dataSource);
+        gameDao = dataSource.fetchClientData(GameDao.class);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class GameTest {
     public void testCreateGameSuccess() throws DataAccessException {
         ChessGame chessGame = new ChessGame();
         GameData newGame = new GameData(0, "testGame", null, null, chessGame);
-        GameData createdGame = GameService.createGame(newGame);
+        GameData createdGame = gameService.createGame(newGame);
 
         assertNotNull(createdGame, "Created game should not be null");
         assertEquals(1, createdGame.gameID(), "Game IDs should match");
@@ -45,10 +45,10 @@ public class GameTest {
         GameData game1 = new GameData(0, "testGame1", null, null, chessGame1);
         GameData game2 = new GameData(0, "testGame2", null, null, chessGame2);
 
-        GameService.createGame(game1);
-        GameService.createGame(game2);
+        gameService.createGame(game1);
+        gameService.createGame(game2);
 
-        GameList allGameS = GameService.getAllGames();
+        GameList allGameS = gameService.getAllGames();
 
         assertNotNull(allGameS, "Game list should not be null");
         assertEquals(2, allGameS.getGames().size(), "There should be two GameS in the list");
@@ -59,10 +59,10 @@ public class GameTest {
     public void testJoinGameSuccess() throws DataAccessException {
         ChessGame chessGame = new ChessGame();
         GameData newGame = new GameData(0, "testGame", null, null, chessGame);
-        GameService.createGame(newGame);
+        gameService.createGame(newGame);
 
         Join joinRequest = new Join("WHITE", "user1", 1);
-        GameData joinedGame = GameService.joinGame(joinRequest);
+        GameData joinedGame = gameService.joinGame(joinRequest);
 
         assertNotNull(joinedGame, "Joined game should not be null");
         assertEquals(1, joinedGame.gameID(), "Game IDs should match");
@@ -77,12 +77,12 @@ public class GameTest {
         GameData game1 = new GameData(0, "testGame1", null, null, chessGame1);
         GameData game2 = new GameData(0, "testGame2", null, null, chessGame2);
 
-        GameService.createGame(game1);
-        GameService.createGame(game2);
+        gameService.createGame(game1);
+        gameService.createGame(game2);
 
-        GameService.deleteAll();
+        gameService.deleteAll();
 
-        GameList allGameS = GameService.getAllGames();
+        GameList allGameS = gameService.getAllGames();
 
         assertNotNull(allGameS, "Game list should not be null");
         assertTrue(allGameS.getGames().isEmpty(), "Game list should be empty after deletion");
@@ -91,9 +91,9 @@ public class GameTest {
     @Test
     @DisplayName("Deleting all GameS when no GameS exist")
     public void testDeleteAllGameSWhenNoGameSExist() throws DataAccessException {
-        GameService.deleteAll();
+        gameService.deleteAll();
 
-        GameList allGameS = GameService.getAllGames();
+        GameList allGameS = gameService.getAllGames();
 
         assertNotNull(allGameS, "Game list should not be null");
         assertTrue(allGameS.getGames().isEmpty(), "Game list should be empty after deletion");

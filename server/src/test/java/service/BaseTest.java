@@ -12,23 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BaseTest {
 
-    private static Data DataAccessObject;
+    private Data dataAccessObject;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
-        DataAccessObject = new Data(DataType.MEM_DATA);
+        dataAccessObject = new Data(DataType.MEM_DATA);
     }
 
     @Test
     @DisplayName("Constructs BaseS successfully with a valid DataAccess object")
     public void testBaseSValidDataAccess() throws NoSuchFieldException, IllegalAccessException {
-        BaseS baseService = new BaseS(DataAccessObject);
+        BaseS baseService = new BaseS(dataAccessObject);
         Field dataAccessField = BaseS.class.getDeclaredField("dataAccess");
         dataAccessField.setAccessible(true);
         Data dataAccessValue = (Data) dataAccessField.get(baseService);
 
         assertNotNull(dataAccessValue);
-        assertEquals(DataAccessObject, dataAccessValue);
+        assertEquals(dataAccessObject, dataAccessValue);
     }
 
     @Test

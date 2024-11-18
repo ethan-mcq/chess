@@ -11,20 +11,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServicesTest {
 
-    private static Services Services;
-    private static Data concreteData;
+    private Services services;
+    private Data concreteData;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
         concreteData = new Data(DataType.MEM_DATA);
-        Services = new Services(concreteData);
+        services = new Services(concreteData);
     }
 
     @Test
     @DisplayName("Fetch Existing Service")
     public void testFetchClientServiceExistingService() {
 
-        AuthS authService = Services.fetchClientService(AuthS.class);
+        AuthS authService = services.fetchClientService(AuthS.class);
 
         assertNotNull(authService);
         assertTrue(authService instanceof AuthS);
@@ -40,7 +40,7 @@ public class ServicesTest {
             }
         }
 
-        Executable executable = () -> Services.fetchClientService(MockService.class);
+        Executable executable = () -> services.fetchClientService(MockService.class);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, executable);
 
