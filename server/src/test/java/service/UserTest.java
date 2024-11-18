@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UserTest {
 
-    private Data DataSource;
-    private UserS UserService;
-    private UserDao UserDao;
-    private AuthDao AuthDao;
+    private static Data DataSource;
+    private static UserS UserService;
+    private static UserDao UserDao;
+    private static AuthDao AuthDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
@@ -27,7 +27,7 @@ public class UserTest {
 
     @Test
     @DisplayName("Create user with new username")
-    public void testCreateUser_NewUsername() throws DataAccessException {
+    public void testCreateUserNewUsername() throws DataAccessException {
         UserM newUser = new UserM("newUser", "password123", "newuser@mail.com");
         Auth authResult = UserService.createUser(newUser);
 
@@ -37,7 +37,7 @@ public class UserTest {
 
     @Test
     @DisplayName("Create user with existing username")
-    public void testCreateUser_ExistingUsername() throws DataAccessException {
+    public void testCreateUserExistingUsername() throws DataAccessException {
         UserM existingUser = new UserM("existingUser", "password123", "existinguser@mail.com");
         UserService.createUser(existingUser);
 

@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameTest {
 
-    private Data DataSource;
-    private GameS GameService;
-    private GameDao GameDao;
+    private static Data DataSource;
+    private static GameS GameService;
+    private static GameDao GameDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {

@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AuthTest {
 
-    private Data DataSource;
-    private AuthS AuthService;
-    private AuthDao AuthDao;
-    private UserDao UserDao;
+    private static Data DataSource;
+    private static AuthS AuthService;
+    private static AuthDao AuthDao;
+    private static UserDao UserDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
@@ -27,7 +27,7 @@ public class AuthTest {
 
     @Test
     @DisplayName("Login with valid credentials")
-    public void testLogin_ValidCredentials() throws DataAccessException {
+    public void testLoginValidCredentials() throws DataAccessException {
         String username = "testUser";
         String password = "password";
         String hashedPassword = AuthS.hashPassword(password);
@@ -45,7 +45,7 @@ public class AuthTest {
 
     @Test
     @DisplayName("Login with invalid credentials")
-    public void testLogin_InvalidCredentials() throws DataAccessException {
+    public void testLoginInvalidCredentials() throws DataAccessException {
         String username = "testUser";
         String password = "password";
         String wrongPassword = "wrongPassword";
@@ -62,7 +62,7 @@ public class AuthTest {
 
     @Test
     @DisplayName("Get authentication Data with valid token")
-    public void testGetAuthData_ValidToken() throws DataAccessException {
+    public void testGetAuthDataValidToken() throws DataAccessException {
         String authToken = "validToken";
 
         Auth auth = new Auth(authToken, "testUser");
@@ -76,7 +76,7 @@ public class AuthTest {
 
     @Test
     @DisplayName("Logout with valid token")
-    public void testLogout_ValidToken() throws DataAccessException {
+    public void testLogoutValidToken() throws DataAccessException {
         String authToken = "validToken";
 
         Auth auth = new Auth(authToken, "testUser");

@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServicesTest {
 
-    private Services Services;
-    private Data concreteData;
+    private static Services Services;
+    private static Data concreteData;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
@@ -22,7 +22,7 @@ public class ServicesTest {
 
     @Test
     @DisplayName("Fetch Existing Service")
-    public void testFetchClientService_ExistingService() {
+    public void testFetchClientServiceExistingService() {
 
         AuthS authService = Services.fetchClientService(AuthS.class);
 
@@ -32,7 +32,7 @@ public class ServicesTest {
 
     @Test
     @DisplayName("Fetch Non-Existing Service")
-    public void testFetchClientService_NonExistingService() {
+    public void testFetchClientServiceNonExistingService() {
 
         class MockService extends BaseS {
             public MockService(Data Data) {
