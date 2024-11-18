@@ -22,7 +22,7 @@ public class AuthSqlTest {
     }
 
     @Test
-    void testInsertAuthPositive() throws DataAccessException {
+    void testInsertAuth_Positive() throws DataAccessException {
         Auth auth = new Auth("token123", "username123");
         Auth insertedAuth = authSqlDai.insertAuth(auth);
         assertNotNull(insertedAuth);
@@ -30,7 +30,7 @@ public class AuthSqlTest {
     }
 
     @Test
-    void testInsertAuthNegative() throws DataAccessException {
+    void testInsertAuth_Negative() throws DataAccessException {
         Auth auth = new Auth("token123", "username123");
         authSqlDai.insertAuth(auth);
 
@@ -41,7 +41,7 @@ public class AuthSqlTest {
     }
 
     @Test
-    void testRemoveAuthPositive() throws DataAccessException {
+    void testRemoveAuth_Positive() throws DataAccessException {
         Auth auth = new Auth("token123", "username123");
         authSqlDai.insertAuth(auth);
 
@@ -51,13 +51,13 @@ public class AuthSqlTest {
     }
 
     @Test
-    void testRemoveAuthNegative() throws DataAccessException {
+    void testRemoveAuth_Negative() throws DataAccessException {
         Auth removedAuth = authSqlDai.removeAuth("nonexistentToken");
         assertNull(removedAuth);
     }
 
     @Test
-    void testGetAuthPositive() throws DataAccessException {
+    void testGetAuth_Positive() throws DataAccessException {
         Auth auth = new Auth("token123", "username123");
         authSqlDai.insertAuth(auth);
 
@@ -67,13 +67,13 @@ public class AuthSqlTest {
     }
 
     @Test
-    void testGetAuthNegative() throws DataAccessException {
+    void testGetAuth_Negative() throws DataAccessException {
         Auth auth = authSqlDai.getAuth("nonexistentToken");
         assertNull(auth);
     }
 
     @Test
-    void testRemoveAllAuthPositive() throws DataAccessException {
+    void testRemoveAllAuth_Positive() throws DataAccessException {
         Auth auth1 = new Auth("token123", "username123");
         Auth auth2 = new Auth("token456", "username456");
         authSqlDai.insertAuth(auth1);
@@ -86,7 +86,7 @@ public class AuthSqlTest {
     }
 
     @Test
-    void testRemoveAllAuthNegative() {
+    void testRemoveAllAuth_Negative() {
         assertDoesNotThrow(() -> authSqlDai.removeAuth());
     }
 }

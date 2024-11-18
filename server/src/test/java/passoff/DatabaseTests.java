@@ -1,4 +1,4 @@
-package src.test.java.dataaccess.passoff;
+package passoff.server;
 
 import chess.ChessGame;
 import org.junit.jupiter.api.*;

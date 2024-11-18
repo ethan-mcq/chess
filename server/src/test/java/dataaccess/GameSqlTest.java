@@ -29,7 +29,7 @@ public class GameSqlTest {
     }
 
     @Test
-    void testCreateGamePositive() throws DataAccessException {
+    void testCreateGame_Positive() throws DataAccessException {
         GameData game = new GameData(0, "First Game", null, null, new ChessGame());
         GameData createdGame = gameSqlDai.createGame(game);
         assertNotNull(createdGame);
@@ -37,7 +37,7 @@ public class GameSqlTest {
     }
 
     @Test
-    void testCreateGameNegative() throws DataAccessException {
+    void testCreateGame_Negative() throws DataAccessException {
         GameData game = new GameData(0, "First Game", null, null, new ChessGame());
         gameSqlDai.createGame(game);
 
@@ -51,7 +51,7 @@ public class GameSqlTest {
     }
 
     @Test
-    void testGetAllGamesPositive() throws DataAccessException {
+    void testGetAllGames_Positive() throws DataAccessException {
         // Ensure we have at least one game to retrieve
         GameData game = new GameData(0, "First Game", null, null, new ChessGame());
         gameSqlDai.createGame(game);
@@ -62,7 +62,7 @@ public class GameSqlTest {
     }
 
     @Test
-    void testGetGamesPositive() throws DataAccessException {
+    void testGetGames_Positive() throws DataAccessException {
         GameData game = new GameData(0, "First Game", null, null, new ChessGame());
         GameData createdGame = gameSqlDai.createGame(game);
 
@@ -72,13 +72,13 @@ public class GameSqlTest {
     }
 
     @Test
-    void testGetGamesNegative() throws DataAccessException {
+    void testGetGames_Negative() throws DataAccessException {
         GameData game = gameSqlDai.getGames(-1);
         assertNull(game);
     }
 
     @Test
-    void testJoinGamePositive() throws DataAccessException {
+    void testJoinGame_Positive() throws DataAccessException {
         GameData game = new GameData(0, "First Game", null, null, new ChessGame());
         GameData createdGame = gameSqlDai.createGame(game);
 
@@ -89,14 +89,14 @@ public class GameSqlTest {
     }
 
     @Test
-    void testJoinGameNegative() throws DataAccessException {
+    void testJoinGame_Negative() throws DataAccessException {
         Join join = new Join("WHITE", "whitePlayer", -1);
         GameData result = gameSqlDai.joinGame(join);
         assertNull(result);
     }
 
     @Test
-    void testDeleteAllGamesPositive() throws DataAccessException {
+    void testDeleteAllGames_Positive() throws DataAccessException {
         GameData game1 = new GameData(0, "First Game", null, null, new ChessGame());
         GameData game2 = new GameData(0, "Second Game", null, null, new ChessGame());
         gameSqlDai.createGame(game1);
@@ -108,7 +108,7 @@ public class GameSqlTest {
     }
 
     @Test
-    void testDeleteAllGamesNegative() {
+    void testDeleteAllGames_Negative() {
         assertDoesNotThrow(() -> gameSqlDai.deleteAllGames());
     }
 }
