@@ -1,4 +1,4 @@
-package src.test.java.dataaccess;
+package src.test.java.server;
 
 import dataaccess.GameSqlDai;
 import dataaccess.DataAccessException;
