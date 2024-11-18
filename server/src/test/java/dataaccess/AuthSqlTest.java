@@ -7,7 +7,7 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AuthSqlDaiTest {
+public class AuthSqlTest {
 
     private AuthSqlDai authSqlDai;
 
