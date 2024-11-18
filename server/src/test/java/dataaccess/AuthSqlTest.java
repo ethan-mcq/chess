@@ -26,7 +26,7 @@ public class AuthSqlTest {
         Auth auth = new Auth("token123", "username123");
         Auth insertedAuth = authSqlDai.insertAuth(auth);
         assertNull(insertedAuth);
-`        assertEquals(auth, insertedAuth);
+        assertNotEquals(auth, insertedAuth);
     }
 
     @Test
