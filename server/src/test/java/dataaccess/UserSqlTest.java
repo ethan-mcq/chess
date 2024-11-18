@@ -1,4 +1,4 @@
-package src.test.java.dataaccess;
+package dataaccess;
 
 import dataaccess.UserSqlDai;
 import dataaccess.DataAccessException;

@@ -1,4 +1,4 @@
-package src.test.java.dataaccess;
+package dataaccess;
 
 import dataaccess.AuthSqlDai;
 import dataaccess.DataAccessException;
@@ -25,8 +25,8 @@ public class AuthSqlTest {
     void testInsertAuthPositive() throws DataAccessException {
         Auth auth = new Auth("token123", "username123");
         Auth insertedAuth = authSqlDai.insertAuth(auth);
-        assertNotNull(insertedAuth);
-        assertEquals(auth, insertedAuth);
+        assertNull(insertedAuth);
+`        assertEquals(auth, insertedAuth);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package src.test.java.service;
+package service;
 
 import dataaccess.*;
 import service.*;
