@@ -23,7 +23,7 @@ public class UserSqlTest {
     }
 
     @Test
-    void testInsertUser_Positive() throws DataAccessException {
+    void testInsertUserPositive() throws DataAccessException {
         UserM user = new UserM("username123", "password123", "email@example.com");
         UserM insertedUser = userSqlDai.insertUser(user);
         assertNotNull(insertedUser);
@@ -31,7 +31,7 @@ public class UserSqlTest {
     }
 
     @Test
-    void testInsertUser_Negative() throws DataAccessException {
+    void testInsertUserNegative() throws DataAccessException {
         UserM user = new UserM("username123", "password123", "email@example.com");
         userSqlDai.insertUser(user);
 
@@ -43,7 +43,7 @@ public class UserSqlTest {
     }
 
     @Test
-    void testGetUser_Positive() throws DataAccessException {
+    void testGetUserPositive() throws DataAccessException {
         UserM user = new UserM("username123", "password123", "email@example.com");
         userSqlDai.insertUser(user);
 
@@ -53,13 +53,13 @@ public class UserSqlTest {
     }
 
     @Test
-    void testGetUser_Negative() throws DataAccessException {
+    void testGetUserNegative() throws DataAccessException {
         UserM user = userSqlDai.getUser("nonexistentUser");
         assertNull(user);
     }
 
     @Test
-    void testdeleteAllUsers_Positive() throws DataAccessException {
+    void testdeleteAllUsersPositive() throws DataAccessException {
         UserM user1 = new UserM("username123", "password123", "email1@example.com");
         UserM user2 = new UserM("username456", "password456", "email2@example.com");
         userSqlDai.insertUser(user1);
@@ -72,7 +72,7 @@ public class UserSqlTest {
     }
 
     @Test
-    void testdeleteAllUsers_Negative() {
+    void testdeleteAllUsersNegative() {
         assertDoesNotThrow(() -> userSqlDai.deleteAllUsers());
     }
 }

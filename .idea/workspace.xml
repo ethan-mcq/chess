@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e36ae035-0d40-44ac-be62-2aefb9ec54f9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/AuthTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/AuthTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/BaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/UserSqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/UserSqlTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/test/java/service/ServicesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/ServicesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/UserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +163,7 @@
       <option name="presentableId" value="Default" />
       <updated>1731951030892</updated>
       <workItem from="1731951032396" duration="217000" />
-      <workItem from="1731951251219" duration="638000" />
+      <workItem from="1731951251219" duration="1158000" />
     </task>
     <servers />
   </component>

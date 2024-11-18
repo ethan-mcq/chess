@@ -35,8 +35,8 @@ public class ServicesTest {
     public void testFetchClientServiceNonExistingService() {
 
         class MockService extends BaseS {
-            public MockService(Data Data) {
-                super(Data);
+            public MockService(Data data) {
+                super(data);
             }
         }
 
@@ -47,8 +47,4 @@ public class ServicesTest {
         assertEquals("Service unavailable: " + MockService.class.getName(), exception.getMessage());
     }
 
-    private void assertServiceNotAvailable(Executable executable, String className) {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, executable);
-        assertEquals("Service unavailable: " + className, exception.getMessage());
-    }
 }
