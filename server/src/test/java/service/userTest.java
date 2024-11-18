@@ -1,7 +1,6 @@
 package src.test.java.service;
 
 import dataaccess.*;
-import model.*;
 import service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
