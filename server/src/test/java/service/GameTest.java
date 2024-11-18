@@ -1,6 +1,7 @@
 package src.test.java.service;
 
 import dataaccess.*;
+import model.*;
 import dataaccess.Data;
 import dataaccess.DataType;
 import service.*;

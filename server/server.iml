@@ -18,5 +18,6 @@
     <orderEntry type="library" name="mindrot.jbcrypt" level="project" />
     <orderEntry type="library" name="github.javaxcel.core" level="project" />
     <orderEntry type="library" name="mysql.connector.j" level="project" />
+    <orderEntry type="library" name="mysql.connector.j1" level="project" />
   </component>
 </module>

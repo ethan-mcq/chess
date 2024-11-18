@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="05f16e23-6f3b-4cdf-984f-b22a4ac6e066" name="Changes" comment="" />
+    <list default="true" id="e36ae035-0d40-44ac-be62-2aefb9ec54f9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/AuthDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/AuthMdao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/AuthSqlDai.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/BaseDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/BaseSqlDai.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/Data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccessException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DatabaseManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameMdao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameSqlDai.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/UserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/UserMdao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/UserSqlDai.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/AuthS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/BaseS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/GameS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Services.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/UserS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/passoff/server/DatabaseTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/passoff/server/DatabaseTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/passoff/server/StandardAPITests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/passoff/server/StandardAPITests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/AuthTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/AuthTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/GameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/ServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/UserTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-        <option value="Class" />
-        <option value="module-info" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -26,102 +43,43 @@
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 4
 }</component>
-  <component name="ProjectId" id="2op6eo98cqFQ1Z4NxjfjYilyXJv" />
+  <component name="ProjectId" id="2p24qvz2ieOFXzuacEkm7f6CjG1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.AuthSqlDaiTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthSqlTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BaseTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DatabaseTests (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DatabaseTests (2).executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.DatabaseTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GameSqlTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GameTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServicesTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserSqlTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.authTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.gameTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.passoff in server.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.passoff.chess in shared.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.service in server.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.src.test.java.passoff in server.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.src.test.java.service in server.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/ethanmcquhae/Desktop/chess/server/src/test/java&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.AuthSqlTest (1).executor": "Run",
+    "JUnit.AuthSqlTest.executor": "Run",
+    "JUnit.AuthTest.executor": "Run",
+    "JUnit.DatabaseTests.executor": "Run",
+    "JUnit.StandardAPITests.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/server/src/test/java" />
-      <recent name="$PROJECT_DIR$/server/src/main/resources" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/server" />
-      <recent name="$PROJECT_DIR$/server/src" />
-      <recent name="$PROJECT_DIR$/server/src/test/java" />
-      <recent name="$PROJECT_DIR$/server/src/test/java/passoff" />
-      <recent name="$PROJECT_DIR$/server/src/test/java/passoff/server" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="dataaccess" />
-      <recent name="passoff.server" />
+      <recent name="$PROJECT_DIR$/server/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.StandardAPITests">
-    <configuration name="AuthSqlDaiTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="src.test.java.dataaccess.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="src.test.java.dataaccess" />
-      <option name="MAIN_CLASS_NAME" value="src.test.java.dataaccess.AuthSqlDaiTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthSqlTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="src.test.java.dataaccess.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="src.test.java.dataaccess" />
-      <option name="MAIN_CLASS_NAME" value="src.test.java.dataaccess.AuthSqlTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.UserTest">
     <configuration name="AuthTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -137,31 +95,61 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DatabaseTests (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BaseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.server.*" />
+          <option name="PATTERN" value="src.test.java.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.DatabaseTests" />
+      <option name="PACKAGE_NAME" value="src.test.java.service" />
+      <option name="MAIN_CLASS_NAME" value="src.test.java.service.BaseTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StandardAPITests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.server.*" />
+          <option name="PATTERN" value="src.test.java.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.StandardAPITests" />
+      <option name="PACKAGE_NAME" value="src.test.java.service" />
+      <option name="MAIN_CLASS_NAME" value="src.test.java.service.GameTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServicesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="src.test.java.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="src.test.java.service" />
+      <option name="MAIN_CLASS_NAME" value="src.test.java.service.ServicesTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="src.test.java.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="src.test.java.service" />
+      <option name="MAIN_CLASS_NAME" value="src.test.java.service.UserTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -169,11 +157,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.StandardAPITests" />
-        <item itemvalue="JUnit.DatabaseTests (1)" />
+        <item itemvalue="JUnit.UserTest" />
+        <item itemvalue="JUnit.ServicesTest" />
+        <item itemvalue="JUnit.GameTest" />
+        <item itemvalue="JUnit.BaseTest" />
         <item itemvalue="JUnit.AuthTest" />
-        <item itemvalue="JUnit.AuthSqlTest" />
-        <item itemvalue="JUnit.AuthSqlDaiTest" />
       </list>
     </recent_temporary>
   </component>
@@ -188,17 +176,13 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="05f16e23-6f3b-4cdf-984f-b22a4ac6e066" name="Changes" comment="" />
-      <created>1731554267389</created>
+      <changelist id="e36ae035-0d40-44ac-be62-2aefb9ec54f9" name="Changes" comment="" />
+      <created>1731951030892</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1731554267389</updated>
-      <workItem from="1731554268424" duration="7596000" />
-      <workItem from="1731613268515" duration="6051000" />
-      <workItem from="1731945730035" duration="1889000" />
-      <workItem from="1731947930947" duration="1620000" />
-      <workItem from="1731949571965" duration="1000" />
-      <workItem from="1731949748716" duration="10000" />
+      <updated>1731951030892</updated>
+      <workItem from="1731951032396" duration="217000" />
+      <workItem from="1731951251219" duration="331000" />
     </task>
     <servers />
   </component>
