@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameSqlTest {
+public class GameSqlDaiTest {
 
     private GameSqlDai gameSqlDai;
 

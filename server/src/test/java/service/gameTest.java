@@ -1,63 +1,68 @@
-package service;
+package src.test.java.service;
 
 import dataaccess.*;
 import model.*;
+import dataaccess.Data;
+import dataaccess.DataType;
+import service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import chess.ChessGame;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class gameTest {
+public class GameTest {
 
-    private data dataSource;
-    private gameS gameService;
-    private gameDAO gameDao;
+    private Data DataSource;
+    private GameS GameService;
+    private GameDao GameDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
-        dataSource = new data(dataTypes.MEM_DATA);
-        gameService = new gameS(dataSource);
-        gameDao = dataSource.fetchClientData(gameDAO.class);
+        DataSource = new Data(DataType.MEM_DATA);
+        GameService = new GameS(DataSource);
+        GameDao = DataSource.fetchClientData(GameDao.class);
     }
 
     @Test
     @DisplayName("Successfully create a new game")
     public void testCreateGameSuccess() throws DataAccessException {
         ChessGame chessGame = new ChessGame();
-        gameData newGame = new gameData(0, "testGame", null, null, chessGame);
-        gameData createdGame = gameService.createGame(newGame);
+        GameData newGame = new GameData(0, "testGame", null, null, chessGame);
+        GameData createdGame = GameService.createGame(newGame);
 
         assertNotNull(createdGame, "Created game should not be null");
         assertEquals(1, createdGame.gameID(), "Game IDs should match");
     }
 
     @Test
-    @DisplayName("Successfully get all games")
-    public void testGetAllGamesSuccess() throws DataAccessException {
+    @DisplayName("Successfully get all GameS")
+    public void testGetAllGameSSuccess() throws DataAccessException {
         ChessGame chessGame1 = new ChessGame();
         ChessGame chessGame2 = new ChessGame();
-        gameData game1 = new gameData(0, "testGame1", null, null, chessGame1);
-        gameData game2 = new gameData(0, "testGame2", null, null, chessGame1);
+        GameData game1 = new GameData(0, "testGame1", null, null, chessGame1);
+        GameData game2 = new GameData(0, "testGame2", null, null, chessGame2);
 
-        gameService.createGame(game1);
-        gameService.createGame(game2);
+        GameService.createGame(game1);
+        GameService.createGame(game2);
 
-        gameList allGames = gameService.getAllGames();
+        GameList allGameS = GameService.getAllGames();
 
-        assertNotNull(allGames, "Game list should not be null");
-        assertEquals(2, allGames.getGames().size(), "There should be two games in the list");
+        assertNotNull(allGameS, "Game list should not be null");
+        assertEquals(2, allGameS.getGames().size(), "There should be two GameS in the list");
     }
 
     @Test
     @DisplayName("Successfully join a game as a specific player")
     public void testJoinGameSuccess() throws DataAccessException {
         ChessGame chessGame = new ChessGame();
-        gameData newGame = new gameData(0, "testGame", null, null, chessGame);
-        gameService.createGame(newGame);
+        GameData newGame = new GameData(0, "testGame", null, null, chessGame);
+        GameService.createGame(newGame);
 
-        join joinRequest = new join("WHITE", "user1", 1);
-        gameData joinedGame = gameService.joinGame(joinRequest);
+        Join joinRequest = new Join("WHITE", "user1", 1);
+        GameData joinedGame = GameService.joinGame(joinRequest);
 
         assertNotNull(joinedGame, "Joined game should not be null");
         assertEquals(1, joinedGame.gameID(), "Game IDs should match");
@@ -65,32 +70,32 @@ public class gameTest {
     }
 
     @Test
-    @DisplayName("Successfully delete all games")
-    public void testDeleteAllGamesSuccess() throws DataAccessException {
+    @DisplayName("Successfully delete all GameS")
+    public void testDeleteAllGameSSuccess() throws DataAccessException {
         ChessGame chessGame1 = new ChessGame();
         ChessGame chessGame2 = new ChessGame();
-        gameData game1 = new gameData(0, "testGame1", null, null, chessGame1);
-        gameData game2 = new gameData(0, "testGame2", null, null, chessGame2);
+        GameData game1 = new GameData(0, "testGame1", null, null, chessGame1);
+        GameData game2 = new GameData(0, "testGame2", null, null, chessGame2);
 
-        gameService.createGame(game1);
-        gameService.createGame(game2);
+        GameService.createGame(game1);
+        GameService.createGame(game2);
 
-        gameService.deleteAll();
+        GameService.deleteAll();
 
-        gameList allGames = gameService.getAllGames();
+        GameList allGameS = GameService.getAllGames();
 
-        assertNotNull(allGames, "Game list should not be null");
-        assertTrue(allGames.getGames().isEmpty(), "Game list should be empty after deletion");
+        assertNotNull(allGameS, "Game list should not be null");
+        assertTrue(allGameS.getGames().isEmpty(), "Game list should be empty after deletion");
     }
 
     @Test
-    @DisplayName("Deleting all games when no games exist")
-    public void testDeleteAllGamesWhenNoGamesExist() throws DataAccessException {
-        gameService.deleteAll();
+    @DisplayName("Deleting all GameS when no GameS exist")
+    public void testDeleteAllGameSWhenNoGameSExist() throws DataAccessException {
+        GameService.deleteAll();
 
-        gameList allGames = gameService.getAllGames();
+        GameList allGameS = GameService.getAllGames();
 
-        assertNotNull(allGames, "Game list should not be null");
-        assertTrue(allGames.getGames().isEmpty(), "Game list should be empty after deletion");
+        assertNotNull(allGameS, "Game list should not be null");
+        assertTrue(allGameS.getGames().isEmpty(), "Game list should be empty after deletion");
     }
 }

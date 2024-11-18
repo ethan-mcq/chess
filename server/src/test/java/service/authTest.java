@@ -1,6 +1,7 @@
-package service;
+package src.test.java.service;
 
 import dataaccess.*;
+import service.*;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,20 +9,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class authTest {
+public class AuthTest {
 
-    private data dataSource;
-    private authS authService;
-    private authDAO authDAO;
-    private userDAO userDAO;
+    private Data DataSource;
+    private AuthS AuthService;
+    private AuthDao AuthDao;
+    private UserDao UserDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
 
-        dataSource = new data(dataTypes.MEM_DATA);
-        authService = new authS(dataSource);
-        authDAO = dataSource.fetchClientData(authDAO.class);
-        userDAO = dataSource.fetchClientData(userDAO.class);
+        DataSource = new Data(DataType.MEM_DATA);
+        AuthService = new AuthS(DataSource);
+        AuthDao = DataSource.fetchClientData(AuthDao.class);
+        UserDao = DataSource.fetchClientData(UserDao.class);
     }
 
     @Test
@@ -29,14 +30,14 @@ public class authTest {
     public void testLogin_ValidCredentials() throws DataAccessException {
         String username = "testUser";
         String password = "password";
-        String hashedPassword = authS.hashPassword(password);
+        String hashedPassword = AuthS.hashPassword(password);
 
-        user user = new user(username, hashedPassword, "email@mail.com");
-        userDAO.insertUser(user);
-        authDAO.insertAuth(new auth("validToken", username));
+        UserM user = new UserM(username, hashedPassword, "email@mail.com");
+        UserDao.insertUser(user);
+        AuthDao.insertAuth(new Auth("validToken", username));
 
-        login loginRequest = new login(username, password);
-        auth authResult = authService.login(loginRequest);
+        Login loginRequest = new Login(username, password);
+        Auth authResult = AuthService.login(loginRequest);
 
         assertNotNull(authResult);
         assertEquals(username, authResult.username());
@@ -48,26 +49,26 @@ public class authTest {
         String username = "testUser";
         String password = "password";
         String wrongPassword = "wrongPassword";
-        String hashedWrongPassword = authS.hashPassword(wrongPassword);
+        String hashedWrongPassword = AuthS.hashPassword(wrongPassword);
 
-        user user = new user(username, hashedWrongPassword, "email@mail.com");
-        userDAO.insertUser(user);
+        UserM user = new UserM(username, hashedWrongPassword, "email@mail.com");
+        UserDao.insertUser(user);
 
-        login loginRequest = new login(username, password);
-        auth authResult = authService.login(loginRequest);
+        Login loginRequest = new Login(username, password);
+        Auth authResult = AuthService.login(loginRequest);
 
         assertNull(authResult);
     }
 
     @Test
-    @DisplayName("Get authentication data with valid token")
+    @DisplayName("Get authentication Data with valid token")
     public void testGetAuthData_ValidToken() throws DataAccessException {
         String authToken = "validToken";
 
-        auth auth = new auth(authToken, "testUser");
-        authDAO.insertAuth(auth);
+        Auth auth = new Auth(authToken, "testUser");
+        AuthDao.insertAuth(auth);
 
-        auth authResult = authService.getAuthData(authToken);
+        Auth authResult = AuthService.getAuthData(authToken);
 
         assertNotNull(authResult);
         assertEquals(authToken, authResult.authToken());
@@ -78,24 +79,24 @@ public class authTest {
     public void testLogout_ValidToken() throws DataAccessException {
         String authToken = "validToken";
 
-        auth auth = new auth(authToken, "testUser");
-        authDAO.insertAuth(auth);
+        Auth auth = new Auth(authToken, "testUser");
+        AuthDao.insertAuth(auth);
 
-        authService.logout(authToken);
+        AuthService.logout(authToken);
 
-        auth authResult = authDAO.getAuth(authToken);
+        Auth authResult = AuthDao.getAuth(authToken);
         assertNull(authResult);
     }
 
     @Test
     @DisplayName("Delete all authentication tokens")
     public void testDeleteAll() throws DataAccessException {
-        authDAO.insertAuth(new auth("token1", "user1"));
-        authDAO.insertAuth(new auth("token2", "user2"));
+        AuthDao.insertAuth(new Auth("token1", "user1"));
+        AuthDao.insertAuth(new Auth("token2", "user2"));
 
-        authService.deleteAll();
+        AuthService.deleteAll();
 
-        assertNull(authDAO.getAuth("token1"));
-        assertNull(authDAO.getAuth("token2"));
+        assertNull(AuthDao.getAuth("token1"));
+        assertNull(AuthDao.getAuth("token2"));
     }
 }

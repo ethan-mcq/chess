@@ -1,33 +1,35 @@
-package service;
+package src.test.java.service;
 
 import dataaccess.*;
 import model.*;
+import service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.junit.jupiter.api.Assertions.*;
+public class UserTest {
 
-public class userTest {
-
-    private data dataSource;
-    private userS userService;
-    private userDAO userDao;
-    private authDAO authDao;
+    private Data DataSource;
+    private UserS UserService;
+    private UserDao UserDao;
+    private AuthDao AuthDao;
 
     @BeforeEach
     public void setUp() throws DataAccessException {
-        dataSource = new data(dataTypes.MEM_DATA);
-        userService = new userS(dataSource);
-        userDao = dataSource.fetchClientData(userDAO.class);
-        authDao = dataSource.fetchClientData(authDAO.class);
+        DataSource = new Data(DataType.MEM_DATA);
+        UserService = new UserS(DataSource);
+        UserDao = DataSource.fetchClientData(UserDao.class);
+        AuthDao = DataSource.fetchClientData(AuthDao.class);
     }
 
     @Test
     @DisplayName("Create user with new username")
     public void testCreateUser_NewUsername() throws DataAccessException {
-        user newUser = new user("newUser", "password123", "newuser@mail.com");
-        auth authResult = userService.createUser(newUser);
+        UserM newUser = new UserM("newUser", "password123", "newuser@mail.com");
+        Auth authResult = UserService.createUser(newUser);
 
         assertNotNull(authResult, "Auth result should not be null");
         assertEquals("newUser", authResult.username(), "Usernames should match");
@@ -36,27 +38,27 @@ public class userTest {
     @Test
     @DisplayName("Create user with existing username")
     public void testCreateUser_ExistingUsername() throws DataAccessException {
-        user existingUser = new user("existingUser", "password123", "existinguser@mail.com");
-        userService.createUser(existingUser);
+        UserM existingUser = new UserM("existingUser", "password123", "existinguser@mail.com");
+        UserService.createUser(existingUser);
 
-        user newUserWithSameUsername = new user("existingUser", "newpassword", "newuser@mail.com");
-        auth authResult = userService.createUser(newUserWithSameUsername);
+        UserM newUserWithSameUsername = new UserM("existingUser", "newpassword", "newuser@mail.com");
+        Auth authResult = UserService.createUser(newUserWithSameUsername);
 
         assertNull(authResult, "Auth result should be null for existing username");
     }
 
     @Test
-    @DisplayName("Delete all users")
-    public void testDeleteAllUsers() throws DataAccessException {
-        user user1 = new user("user1", "password123", "user1@mail.com");
-        user user2 = new user("user2", "password123", "user2@mail.com");
+    @DisplayName("Delete all UserS")
+    public void testDeleteAllUserS() throws DataAccessException {
+        UserM user1 = new UserM("user1", "password123", "user1@mail.com");
+        UserM user2 = new UserM("user2", "password123", "user2@mail.com");
 
-        userService.createUser(user1);
-        userService.createUser(user2);
+        UserService.createUser(user1);
+        UserService.createUser(user2);
 
-        userService.deleteAll();
+        UserService.deleteAll();
 
-        assertNull(userDao.getUser("user1"), "User1 should be null after deletion");
-        assertNull(userDao.getUser("user2"), "User2 should be null after deletion");
+        assertNull(UserDao.getUser("user1"), "User1 should be null after deletion");
+        assertNull(UserDao.getUser("user2"), "User2 should be null after deletion");
     }
 }
