@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BaseTest {
+public class BTest {
 
     private Data DataAccessObject;
 
