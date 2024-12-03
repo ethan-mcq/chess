@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e36ae035-0d40-44ac-be62-2aefb9ec54f9" name="Changes" comment="" />
+    <list default="true" id="e36ae035-0d40-44ac-be62-2aefb9ec54f9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/exception/InputException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +43,7 @@
     &quot;JUnit.BaseTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.DatabaseTests.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.GameTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ServerFacadeTests.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.ServicesTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.StandardAPITests.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.UserTest.executor&quot;: &quot;Run&quot;,
@@ -64,18 +70,10 @@
       <recent name="$PROJECT_DIR$/server" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AuthSqlTest">
-    <configuration name="AuthSqlTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.DatabaseTests">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="src.test.java.dataaccess.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="src.test.java.dataaccess" />
-      <option name="MAIN_CLASS_NAME" value="src.test.java.dataaccess.AuthSqlTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -110,16 +108,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
+    <configuration name="ServerFacadeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="src.test.java.service.*" />
+          <option name="PATTERN" value="client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="src.test.java.service" />
-      <option name="MAIN_CLASS_NAME" value="src.test.java.service.GameTest" />
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -142,11 +140,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AuthSqlTest" />
         <item itemvalue="JUnit.DatabaseTests" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.ServerFacadeTests" />
+        <item itemvalue="JUnit.AuthSqlTest" />
         <item itemvalue="JUnit.StandardAPITests" />
-        <item itemvalue="JUnit.AuthSqlTest (1)" />
-        <item itemvalue="JUnit.GameTest" />
       </list>
     </recent_temporary>
   </component>
@@ -169,6 +167,9 @@
       <workItem from="1731951032396" duration="217000" />
       <workItem from="1731951251219" duration="1887000" />
       <workItem from="1731953144117" duration="2400000" />
+      <workItem from="1731955569719" duration="144000" />
+      <workItem from="1733246792086" duration="1215000" />
+      <workItem from="1733251402042" duration="3117000" />
     </task>
     <servers />
   </component>
