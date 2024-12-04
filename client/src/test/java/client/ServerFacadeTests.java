@@ -65,6 +65,12 @@ public class ServerFacadeTests {
             json.addProperty("email", "email@example.com");
 
             sf.registerNewUser(json);
+
+            json.addProperty("username", "BINGO");
+            json.addProperty("password", "BONGO");
+            json.addProperty("email", "email@example.com");
+
+            sf.registerNewUser(json);
         }, "Expected InputException for taken username");
     }
 
@@ -78,14 +84,8 @@ public class ServerFacadeTests {
 
         Response reply = sf.registerNewUser(json);
 
-        json.addProperty("username", uniqueUsername);
-        json.addProperty("password", uniquePassword);
-        json.addProperty("email", "email@example.com");
-
-        Response reply2 = sf.registerNewUser(json);
-
-        assertNotNull(reply2.authToken, "Auth token should not be null for successful login");
-        assertFalse(reply2.authToken.isEmpty(), "Auth token should not be empty for successful login");
+        assertNotNull(reply.authToken, "Auth token should not be null for successful login");
+        assertFalse(reply.authToken.isEmpty(), "Auth token should not be empty for successful login");
     }
 
     @Test
