@@ -1,18 +1,19 @@
 package server;
-import model.GameData;
+import model.*;
+
 import java.util.ArrayList;
 
 public class Response {
     public String username;
     public String authToken;
-    public String response;
+    public ArrayList<GameResponse> games;
+    //public String response;
     public Integer gameID;
-    public ArrayList<GameData> gamesList;
-    public String getUsername() {
+
+    public String username() {
         return username;
     }
-    public String getAuthToken() {
+    public String authToken() {
         return authToken;
     }
-
 }
