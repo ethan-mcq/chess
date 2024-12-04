@@ -301,8 +301,8 @@ public class Repl {
     // Helper method to render game board
     private void renderGameBoard() {
         Render render = new Render();
-        System.out.println(render.RenderBoard(new ChessGame().getBoard(), ChessGame.TeamColor.WHITE));
-        System.out.println(render.RenderBoard(new ChessGame().getBoard(), ChessGame.TeamColor.BLACK));
+        System.out.println(render.renderBoard(new ChessGame().getBoard(), ChessGame.TeamColor.WHITE));
+        System.out.println(render.renderBoard(new ChessGame().getBoard(), ChessGame.TeamColor.BLACK));
     }
 
     /**

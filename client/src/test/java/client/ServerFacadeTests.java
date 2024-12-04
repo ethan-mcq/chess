@@ -78,8 +78,14 @@ public class ServerFacadeTests {
 
         Response reply = sf.registerNewUser(json);
 
-        assertNotNull(reply.authToken, "Auth token should not be null for successful login");
-        assertFalse(reply.authToken.isEmpty(), "Auth token should not be empty for successful login");
+        json.addProperty("username", uniqueUsername);
+        json.addProperty("password", uniquePassword);
+        json.addProperty("email", "email@example.com");
+
+        Response reply2 = sf.registerNewUser(json);
+
+        assertNotNull(reply2.authToken, "Auth token should not be null for successful login");
+        assertFalse(reply2.authToken.isEmpty(), "Auth token should not be empty for successful login");
     }
 
     @Test

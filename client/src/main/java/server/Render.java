@@ -18,7 +18,7 @@ public class Render {
      * @param perspective The team color perspective (WHITE or BLACK) for viewing the board.
      * @return A pretty-printed string representation of the board.
      */
-    public static String RenderBoard(ChessBoard board, ChessGame.TeamColor perspective) {
+    public static String renderBoard(ChessBoard board, ChessGame.TeamColor perspective) {
         StringBuilder sb = new StringBuilder();
 
         // Define the start, end, and increment based on color perspective
