@@ -7,7 +7,7 @@ public class Response {
     public String username;
     public String authToken;
     public ArrayList<GameResponse> games;
-    //public String response;
+    public String response;
     public Integer gameID;
 
     public String username() {
