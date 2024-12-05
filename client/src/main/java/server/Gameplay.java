@@ -153,28 +153,6 @@ public class Gameplay implements Client {
         return "You couldn't leave for some unknown reason";
     }
 
-    private void setBackGroundColor(StringBuilder stringBuilder,
-                                    int i,
-                                    int j,
-                                    ChessPiece[][] board,
-                                    Collection<ChessMove> validMoves,
-                                    ChessPosition selected) {
-        ChessMove move = new ChessMove(selected, new ChessPosition(i, j), null);
-        if (validMoves != null && validMoves.contains(move)) {
-            stringBuilder.append(SET_BG_COLOR_MAGENTA);
-        } else if (selected != null && selected.getColumn() == j && selected.getRow() == i) {
-            stringBuilder.append(SET_BG_COLOR_YELLOW);
-        } else if(j == 0 || j == board.length-1 || i == 0 || i == board.length-1){
-            stringBuilder.append(SET_BG_COLOR_DARK_GREY);
-        } else if (j % 2 == 1 && i % 2 == 0) {
-            stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
-        } else if (j % 2 == 0 && i % 2 == 1) {
-            stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
-        } else {
-            stringBuilder.append(SET_BG_COLOR_DARK_GREEN);
-        }
-    }
-
     public void setChessGame(GameData chessGame) {
         this.chessGame = chessGame;
     }
