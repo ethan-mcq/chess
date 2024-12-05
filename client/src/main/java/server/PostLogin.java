@@ -5,6 +5,7 @@ import exception.InputException;
 import model.*;
 
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class PostLogin implements Client {
     private final String serverUrl;
@@ -85,14 +86,17 @@ public class PostLogin implements Client {
     private String listGames() throws Exception {
         loadGames();
 
-        StringBuilder gamesList = new StringBuilder();
-        for (int i = 0; i < this.games.length; i++) {
-            GameData game = this.games[i];
+        StringJoiner gamesList = new StringJoiner(System.lineSeparator());
+        int gameNumber = 1;
+
+        for (GameData game : this.games) {
             String whitePlayer = game.whiteUsername() != null ? game.whiteUsername() : "OPEN";
             String blackPlayer = game.blackUsername() != null ? game.blackUsername() : "OPEN";
-            gamesList.append(String.format(" Game #: %d\t Game Name: %s\t White Player: %s\t Black Player: %s%n",
-                    i + 1, game.gameName(), whitePlayer, blackPlayer));
+            String gameDetails = String.format("Game #: %d\t Game Name: %s\t White Player: %s\t Black Player: %s",
+                    gameNumber++, game.gameName(), whitePlayer, blackPlayer);
+            gamesList.add(gameDetails);
         }
+
         return gamesList.toString();
     }
 
