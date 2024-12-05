@@ -71,7 +71,7 @@ public class Repl implements Notification {
 
     public void joiningGame(GameData game){
         this.gameplayClient.setChessGame(game);
-        this.gameplayClient.upgradeToWebsocket();
+        this.gameplayClient.changeToWs();
     }
 
     public Auth getAuthData() {

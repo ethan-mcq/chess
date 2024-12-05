@@ -1,9 +1,7 @@
 package server;
 
 import chess.*;
-import exception.InputException;
 import model.GameData;
-import websocket.messages.ServerMessage;
 import static server.EscapeSequences.*;
 
 import java.util.Arrays;
@@ -13,18 +11,17 @@ public class Gameplay implements Client {
     private final String serverUrl;
     private final Repl repl;
     public GameData chessGame;
-    private Boolean flipBoard = true;
-    private WebSocketFacade ws;
+    private WebSocketFacade webSocketFacade;
 
     public Gameplay(String serverUrl, Repl repl) {
-        this.serverUrl = serverUrl;
         this.repl = repl;
+        this.serverUrl = serverUrl;
     }
 
-    public void upgradeToWebsocket() {
+    public void changeToWs() {
         try {
-            ws = new WebSocketFacade(serverUrl, repl);
-            ws.connectToGame(chessGame.gameID(), repl.getAuthData().authToken());
+            webSocketFacade = new WebSocketFacade(serverUrl, repl);
+            webSocketFacade.connectToGame(chessGame.gameID(), repl.getAuthData().authToken());
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -38,21 +35,21 @@ public class Gameplay implements Client {
             var params = Arrays.copyOfRange(tokens, 1, tokens.length);
             if(repl.getState() == State.OBSERVING) {
                 return switch (cmd) {
-                    case "help" -> helper();
-                    case "redraw", "r" -> printChessboard(null);
-                    case "leave", "b" -> leave();
-                    case "quit", "q" -> quit();
+                    case "HELP" -> helper();
+                    case "DISPLAY", "r" -> printChessboard(null);
+                    case "LEAVE", "b" -> leave();
+                    case "QUIT", "q" -> quit();
                     default -> helper();
                 };
             } else {
                 return switch (cmd) {
-                    case "help" -> helper();
-                    case "redraw", "r" -> printChessboard(null);
-                    case "select", "s" -> select(params[0]);
-                    case "move", "m" -> makeMove(params[0], params[1]);
-                    case "resign", "res" -> resign();
-                    case "leave", "b" -> leave();
-                    case "quit", "q" -> quit();
+                    case "HELP" -> helper();
+                    case "DISPLAY", "r" -> printChessboard(null);
+                    case "SELECT", "s" -> select(params[0]);
+                    case "MOVE", "m" -> makeMove(params[0], params[1]);
+                    case "RESIGN", "res" -> resign();
+                    case "LEAVE", "b" -> leave();
+                    case "QUIT", "q" -> quit();
                     default -> helper();
                 };
             }
@@ -63,11 +60,11 @@ public class Gameplay implements Client {
 
     private String resign() {
         try {
-            ws.resign(chessGame.gameID(), repl.getAuthData().authToken());
-            return "You have resigned";
+            webSocketFacade.resign(chessGame.gameID(), repl.getAuthData().authToken());
+            return "FORFEITED";
         } catch (Exception e) {
             System.out.println(e);
-            return "An error has occurred during your resignation";
+            return "ERROR FORFEITING";
         }
     }
 
@@ -82,7 +79,7 @@ public class Gameplay implements Client {
                 chessGame.game().getBoard().getPiece(selected).pieceMoves(chessGame.game().getBoard(), selected) :
                 null; // Fetch valid moves only if there's a selected piece
 
-        return "In Game " + chessGame.gameName() +
+        return "IN GAME" + chessGame.gameName() +
                 "\n\n" +
                 renderBoard(chessGame.game().getBoard(), flip ? ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE, selected, validMoves);
     }
@@ -145,12 +142,12 @@ public class Gameplay implements Client {
 
     private String leave() {
         try {
-            ws.leaveGame(chessGame.gameID(), repl.getAuthData().authToken());
+            webSocketFacade.leaveGame(chessGame.gameID(), repl.getAuthData().authToken());
             return backToMenu();
         } catch (Exception e) {
             System.out.println(e);
         }
-        return "You couldn't leave for some unknown reason";
+        return "LEAVING IS BROKEN, RESTART CLI OR TRY AGAIN";
     }
 
     public void setChessGame(GameData chessGame) {
@@ -159,7 +156,7 @@ public class Gameplay implements Client {
 
     private String backToMenu() {
         this.repl.changeState(State.SIGNEDIN);
-        return "Welcome Back";
+        return "HOME SCREEN";
     }
 
     private String select(String selection) {
@@ -168,7 +165,7 @@ public class Gameplay implements Client {
             int col = convertColToNumber(selection.charAt(0));
             return printChessboard(new ChessPosition(row,col));
         } catch (Exception e) {
-            return "Invalid Command";
+            return "WRONG, AGAIN";
         }
     }
 
@@ -195,10 +192,10 @@ public class Gameplay implements Client {
             ChessPosition startPos = new ChessPosition(startRow, startCol);
             ChessPosition endPos = new ChessPosition(endRow, endCol);
             ChessMove move = new ChessMove(startPos, endPos, null);
-            ws.makeMove(chessGame.gameID(), repl.getAuthData().authToken(), move);
+            webSocketFacade.makeMove(chessGame.gameID(), repl.getAuthData().authToken(), move);
 
         } catch (Exception e) {
-            return "Invalid Command";
+            return "WRONG, AGAIN";
         }
         return "";
     }
@@ -207,21 +204,20 @@ public class Gameplay implements Client {
     public String helper() {
         if (repl.getState().equals(State.OBSERVING)) {
             return """
-                - help - lists all possible commands
-                - redraw - draws the chessboard again
-                - leave - stop observing the game
-                - quit - ends the client
+                HELP                               | Get help!
+                DISPLAY                            | Display board
+                LEAVE                              | Leave game
+                QUIT                               | QUIT
                 """;
         } else {
             return """
-                - help - lists all possible commands
-                - redraw - draws the chessboard again
-                - select <A-H1-8> - selects a piece a the indicated row and column to see its moves
-                - move <A-H1-8> <A-H1-8>- moves the piece in the first row
-                    column selection to the second row and column selection
-                - leave - removes player from the game leaving their spot open
-                - resign - forfeits the match to the other player
-                - quit - ends the client
+                HELP                               | Get help!
+                DISPLAY                            | Display board
+                SELECT  <A-H1-8>                   | Displays piece all possible moves
+                MOVE <A-H1-8> <A-H1-8>             | Move Piece <START> <END>
+                LEAVE                              | Leave game
+                RESIGN                             | Forfeit game
+                QUIT                               | QUIT
                 """;
         }
     }
