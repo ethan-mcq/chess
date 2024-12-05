@@ -48,7 +48,10 @@ public class WebSocketHandler {
     }
 
     // Handles different types of commands from the client based on the command type
-    private void handleCommand(Auth userData, UserGameCommand command, Session session) throws IOException, DataAccessException, InvalidMoveException {
+    private void handleCommand(Auth userData, UserGameCommand command, Session session)
+            throws IOException,
+            DataAccessException,
+            InvalidMoveException {
         switch (command.getCommandType()) {
             case CONNECT -> connect(userData, command.getGameID(), session);
             case MAKE_MOVE -> makeMove(command.getGameID(), command.getChessMove(), userData, session);
@@ -102,10 +105,10 @@ public class WebSocketHandler {
     // Handles the MAKE_MOVE command from the client
     private void makeMove(Integer gameID, ChessMove move, Auth user, Session session) throws IOException, DataAccessException, InvalidMoveException {
         user = checkForUser(user, session);
-        if (user == null) return;
+        if (user == null) {return;}
 
         GameData game = checkForGame(gameID, session, user);
-        if (game == null) return;
+        if (game == null) {return;}
 
         // Pre-move check: Is the game already over?
         if (game.game().isGameWon()) {
@@ -146,7 +149,10 @@ public class WebSocketHandler {
     }
 
     // Tries to make a move in the game
-    private boolean attemptMove(GameData game, ChessMove move, Auth user, Session session) throws IOException, InvalidMoveException, DataAccessException {
+    private boolean attemptMove(GameData game, ChessMove move, Auth user, Session session)
+            throws IOException,
+            InvalidMoveException,
+            DataAccessException {
         ChessGame.TeamColor teamColor = determineTeamColor(user, game);
 
         if (teamColor == null || !game.game().validMoves(move.getStartPosition()).contains(move)) {
@@ -212,7 +218,7 @@ public class WebSocketHandler {
     // Handles when a user resigns from a game
     private void resign(Integer gameID, Auth user, Session session) throws IOException, DataAccessException {
         user = checkForUser(user, session);
-        if (user == null) return;
+        if (user == null) {return;}
 
         GameData game = checkForGame(gameID, session, user);
         if (game != null) {

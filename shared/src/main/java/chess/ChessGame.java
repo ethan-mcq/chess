@@ -48,10 +48,6 @@ public class ChessGame {
     public enum TeamColor {
         WHITE,
         BLACK;
-
-        public TeamColor opposite() {
-            return this == WHITE ? BLACK : WHITE;
-        }
     }
     public TeamColor getWinner() {
         return winner;

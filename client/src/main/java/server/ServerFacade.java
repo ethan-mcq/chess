@@ -103,9 +103,6 @@ public class ServerFacade {
      *
      * @throws InputException if a request error occurs
      */
-    public void clearApplication() throws InputException {
-        makeRequest("DELETE", "/db", null, null, null);
-    }
 
     /**
      * Makes an HTTP request to the server and processes the response.

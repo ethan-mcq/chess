@@ -82,7 +82,9 @@ public class Gameplay implements Client {
                 chessGame.game().getBoard().getPiece(selected).pieceMoves(chessGame.game().getBoard(), selected) :
                 null; // Fetch valid moves only if there's a selected piece
 
-        return "In Game " + chessGame.gameName() + "\n\n" + renderBoard(chessGame.game().getBoard(), flip ? ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE, selected, validMoves);
+        return "In Game " + chessGame.gameName() +
+                "\n\n" +
+                renderBoard(chessGame.game().getBoard(), flip ? ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE, selected, validMoves);
     }
 
     private static String renderBoard(ChessBoard board, ChessGame.TeamColor perspective, ChessPosition selected, Collection<ChessMove> validMoves) {
@@ -151,21 +153,12 @@ public class Gameplay implements Client {
         return "You couldn't leave for some unknown reason";
     }
 
-    private String getLetter(int numberEquivalent) {
-        return switch (numberEquivalent) {
-            case 1 -> "H";
-            case 2 -> "G";
-            case 3 -> "F";
-            case 4 -> "E";
-            case 5 -> "D";
-            case 6 -> "C";
-            case 7 -> "B";
-            case 8 -> "A";
-            default -> throw new RuntimeException("Invalid number");
-        };
-    }
-
-    private void setBackGroundColor(StringBuilder stringBuilder, int i, int j, ChessPiece[][] board, Collection<ChessMove> validMoves, ChessPosition selected) {
+    private void setBackGroundColor(StringBuilder stringBuilder,
+                                    int i,
+                                    int j,
+                                    ChessPiece[][] board,
+                                    Collection<ChessMove> validMoves,
+                                    ChessPosition selected) {
         ChessMove move = new ChessMove(selected, new ChessPosition(i, j), null);
         if (validMoves != null && validMoves.contains(move)) {
             stringBuilder.append(SET_BG_COLOR_MAGENTA);
@@ -180,35 +173,6 @@ public class Gameplay implements Client {
         } else {
             stringBuilder.append(SET_BG_COLOR_DARK_GREEN);
         }
-    }
-
-    private String setPiece(StringBuilder stringBuilder, ChessPiece piece, String pieceRepresentation){
-        if(piece != null) {
-            if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                stringBuilder.append(SET_TEXT_COLOR_WHITE);
-                switch (piece.getPieceType()) {
-                    case ChessPiece.PieceType.KING -> pieceRepresentation = WHITE_KING;
-                    case ChessPiece.PieceType.QUEEN -> pieceRepresentation = WHITE_QUEEN;
-                    case ChessPiece.PieceType.BISHOP -> pieceRepresentation = WHITE_BISHOP;
-                    case ChessPiece.PieceType.KNIGHT -> pieceRepresentation = WHITE_KNIGHT;
-                    case ChessPiece.PieceType.ROOK -> pieceRepresentation = WHITE_ROOK;
-                    case ChessPiece.PieceType.PAWN -> pieceRepresentation = WHITE_PAWN;
-                    default -> throw new RuntimeException(" ");
-                };
-            } else {
-                stringBuilder.append(SET_TEXT_COLOR_BLACK);
-                switch (piece.getPieceType()) {
-                    case ChessPiece.PieceType.KING -> pieceRepresentation = BLACK_KING;
-                    case ChessPiece.PieceType.QUEEN -> pieceRepresentation = BLACK_QUEEN;
-                    case ChessPiece.PieceType.BISHOP -> pieceRepresentation = BLACK_BISHOP;
-                    case ChessPiece.PieceType.KNIGHT -> pieceRepresentation = BLACK_KNIGHT;
-                    case ChessPiece.PieceType.ROOK -> pieceRepresentation = BLACK_ROOK;
-                    case ChessPiece.PieceType.PAWN -> pieceRepresentation = BLACK_PAWN;
-                    default -> throw new RuntimeException(" ");
-                };
-            }
-        }
-        return pieceRepresentation;
     }
 
     public void setChessGame(GameData chessGame) {

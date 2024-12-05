@@ -1,8 +1,8 @@
 package server;
 
-import chess.ChessGame;
+import chess.*;
 import exception.InputException;
-import model.GameData;
+import model.*;
 
 import java.util.Arrays;
 
