@@ -7,5 +7,6 @@ public interface GameDao extends BaseDao {
     GameData getGames(int gameID) throws DataAccessException;
     GameData joinGame(Join join) throws DataAccessException;
     GameData createGame(GameData gameData) throws DataAccessException;
+    GameData updateGame(int gameID, GameData game) throws DataAccessException;
     void deleteAllGames() throws DataAccessException;
 }

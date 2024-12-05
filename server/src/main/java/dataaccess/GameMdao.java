@@ -81,6 +81,12 @@ public class GameMdao implements GameDao {
     }
 
     @Override
+    public GameData updateGame(int gameID, GameData game) throws DataAccessException {
+        gameDataMap.replace(gameID, game);
+        return gameDataMap.get(gameID);
+    }
+
+    @Override
     public void deleteAllGames() throws DataAccessException {
         gameDataMap.clear();
     }

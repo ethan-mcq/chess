@@ -4,7 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e36ae035-0d40-44ac-be62-2aefb9ec54f9" name="Changes" comment="" />
+    <list default="true" id="e36ae035-0d40-44ac-be62-2aefb9ec54f9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/Gameplay.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/Notification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/PostLogin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/PreLogin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/State.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/server/WebSocketFacade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/Connect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/Render.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/Repl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/Response.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/EscapeSequences.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/EscapeSequences.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameMdao.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameMdao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameSqlDai.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/GameSqlDai.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/AuthS.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/AuthS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/GameS.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/GameS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/GameData.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/model/GameData.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +44,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -31,9 +63,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main (1).executor": "Run",
+    "Application.Main (1).executor": "Debug",
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in server.executor": "Run",
     "JUnit.AuthSqlTest (1).executor": "Run",
     "JUnit.AuthSqlTest.executor": "Run",
     "JUnit.AuthTest.executor": "Run",
@@ -46,12 +79,20 @@
     "JUnit.ServicesTest.executor": "Run",
     "JUnit.StandardAPITests.executor": "Run",
     "JUnit.UserTest.executor": "Run",
+    "JUnit.WebSocketTests.connectBadAuthToken.executor": "Debug",
+    "JUnit.WebSocketTests.connectBadGameID.executor": "Debug",
+    "JUnit.WebSocketTests.executor": "Run",
+    "JUnit.WebSocketTests.invalidMoveGameOver.executor": "Debug",
+    "JUnit.WebSocketTests.joinAfterLeaveGame.executor": "Debug",
+    "JUnit.WebSocketTests.validMove.executor": "Debug",
+    "JUnit.passoff.server in server.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/ethanmcquhae/Desktop/chess/client/src/main/java/server",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,12 +105,15 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/main/java/server" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/server/src/main/resources" />
       <recent name="$PROJECT_DIR$/server" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ServerFacadeTests">
+  <component name="RunManager" selected="JUnit.passoff.server in server">
     <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="client" />
@@ -99,7 +143,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerFacadeTests.joinGamePositiveTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServerFacadeTests.joinGameTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="client" />
       <extension name="coverage">
         <pattern>
@@ -109,35 +153,33 @@
       </extension>
       <option name="PACKAGE_NAME" value="client" />
       <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
-      <option name="METHOD_NAME" value="joinGamePositiveTest" />
+      <option name="METHOD_NAME" value="joinGameTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerFacadeTests.registerNegTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
+    <configuration name="passoff.server in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="client.*" />
+          <option name="PATTERN" value="passoff.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="client" />
-      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
-      <option name="METHOD_NAME" value="registerNegTest" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.passoff.server in server" />
         <item itemvalue="JUnit.ServerFacadeTests" />
-        <item itemvalue="JUnit.ServerFacadeTests.joinGamePositiveTest" />
-        <item itemvalue="JUnit.ServerFacadeTests.registerNegTest" />
-        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="JUnit.ServerFacadeTests.joinGameTest" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -162,11 +204,30 @@
       <workItem from="1731953144117" duration="2400000" />
       <workItem from="1731955569719" duration="144000" />
       <workItem from="1733246792086" duration="1215000" />
-      <workItem from="1733251402042" duration="18695000" />
+      <workItem from="1733251402042" duration="18881000" />
+      <workItem from="1733330319762" duration="1000" />
+      <workItem from="1733367048242" duration="1782000" />
+      <workItem from="1733373155837" duration="1019000" />
+      <workItem from="1733374184232" duration="426000" />
+      <workItem from="1733379677824" duration="2819000" />
+      <workItem from="1733387735724" duration="11670000" />
+      <workItem from="1733399465565" duration="16850000" />
+      <workItem from="1733424484096" duration="16419000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java</url>
+          <line>116</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

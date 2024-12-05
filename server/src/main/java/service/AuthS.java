@@ -33,7 +33,10 @@ public class AuthS extends BaseS {
         }
         return null;
     }
-
+    public Auth authenticate(String authToken) throws DataAccessException {
+        AuthDao authDAO = this.dataAccess.fetchClientData(AuthDao.class);
+        return authDAO.getAuth(authToken);
+    }
     /**
      * Retrieves authentication Data associated with the given token.
      * @param authToken The authentication token

@@ -146,6 +146,17 @@ public class GameSqlDai extends BaseSqlDai implements GameDao {
         return getGames(gameId);
     }
 
+    @Override
+    public GameData updateGame(int gameID, GameData game) throws DataAccessException {
+        if (game == null) {
+            throw new DataAccessException("game cant be null");
+        }
+        var statement = "UPDATE games SET name = ?, white_username = ?, black_username = ?, game = ? WHERE id = ?";
+        var gameJSON = new Gson().toJson(game.game());
+        executeSqlUpdate(statement, game.gameName(), game.whiteUsername(), game.blackUsername(), gameJSON, gameID);
+        return getGames(gameID);
+    }
+
     /**
      * Deletes all games from the database.
      *

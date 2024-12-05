@@ -14,12 +14,16 @@ public class ChessGame {
 
     private ChessBoard board;
     private TeamColor teamTurn;
+    boolean gameWon = false;
+    TeamColor winner = null;
 
     public ChessGame() {
         this.board = new ChessBoard();
         setTeamTurn(TeamColor.WHITE);
         board.resetBoard(); // This will initialize the board whenever we start a new game
     }
+
+
 
     /**
      * @return Which team's turn it is
@@ -37,12 +41,32 @@ public class ChessGame {
         this.teamTurn = team; // do we need 'this'
     }
 
+
     /**
      * Enum identifying the 2 possible teams in a chess game
      */
     public enum TeamColor {
         WHITE,
-        BLACK
+        BLACK;
+
+        public TeamColor opposite() {
+            return this == WHITE ? BLACK : WHITE;
+        }
+    }
+    public TeamColor getWinner() {
+        return winner;
+    }
+
+    public void setWinner(TeamColor winner) {
+        this.winner = winner;
+    }
+
+    public boolean isGameWon() {
+        return gameWon;
+    }
+
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
     }
 
     /**

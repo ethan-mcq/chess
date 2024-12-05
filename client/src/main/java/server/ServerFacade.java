@@ -1,194 +1,198 @@
 package server;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import model.*;
+
+import java.io.*;
+import java.net.*;
+import java.util.HashMap;
+import java.util.Map;
+
 import exception.InputException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 
-import static ui.EscapeSequences.SET_TEXT_COLOR_RED;
-
-/**
- * The ServerFacade class facilitates communication with the server through HTTP requests.
- * It provides methods to register, log in/out users, and manage chess games.
- */
 public class ServerFacade {
-    private final String serverUrl;
+
+    private final String serverEndPoint;
 
     /**
-     * Constructs a ServerFacade with a specified server URL.
+     * Initializes ServerFacade with the server URL.
      *
-     * @param url The URL of the server to connect to.
+     * @param url the server URL
      */
     public ServerFacade(String url) {
-        this.serverUrl = url;
+        this.serverEndPoint = url;
+    }
+
+    /**
+     * Logs a user into the system.
+     *
+     * @param user the user credentials
+     * @return Auth object containing authentication data
+     * @throws InputException if a request error occurs
+     */
+    public Auth login(UserM user) throws InputException {
+        return makeRequest("POST", "/session", user, Auth.class, null);
+    }
+
+    /**
+     * Registers a new user.
+     *
+     * @param user the registration details for the user
+     * @return Auth object containing authentication data
+     * @throws InputException if a request error occurs
+     */
+    public Auth register(UserM user) throws InputException {
+        return makeRequest("POST", "/user", user, Auth.class, null);
+    }
+
+    /**
+     * Logs out the user.
+     *
+     * @param auth the current user's authentication details
+     * @return Auth object indicating the logged-out state
+     * @throws InputException if a request error occurs
+     */
+    public Auth logout(Auth auth) throws InputException {
+        return makeRequest("DELETE", "/session", null, null, auth);
+    }
+
+    /**
+     * Lists all available games.
+     *
+     * @param auth the current user's authentication details
+     * @return Array of GameData containing information about games
+     * @throws InputException if a request error occurs
+     */
+    public GameData[] listGames(Auth auth) throws InputException {
+        record ListGameResponse(GameData[] games) {}
+        var response = this.makeRequest("GET", "/game", null, ListGameResponse.class, auth);
+        return response.games;
+    }
+
+    /**
+     * Creates a new game.
+     *
+     * @param auth the current user's authentication details
+     * @param gameData the game data to be created
+     * @return GameData containing the created game's information
+     * @throws InputException if a request error occurs
+     */
+    public GameData createGame(Auth auth, GameData gameData) throws InputException {
+        return makeRequest("POST", "/game", gameData, GameData.class, auth);
+    }
+
+    /**
+     * Joins a game as a specified player color.
+     *
+     * @param auth the current user's authentication details
+     * @param playerColor the desired team color
+     * @param gameID the ID of the game to join
+     * @return GameData containing updated game information
+     * @throws InputException if a request error occurs
+     */
+    public GameData joinGame(Auth auth, ChessGame.TeamColor playerColor, int gameID) throws InputException {
+        Map<String, Object> game = new HashMap<>();
+        game.put("playerColor", playerColor.toString());
+        game.put("gameID", gameID);
+        return makeRequest("PUT", "/game", game, GameData.class, auth);
+    }
+
+    /**
+     * Clears application data from the server.
+     *
+     * @throws InputException if a request error occurs
+     */
+    public void clearApplication() throws InputException {
+        makeRequest("DELETE", "/db", null, null, null);
     }
 
     /**
      * Makes an HTTP request to the server and processes the response.
      *
-     * @param <T>         The type of the response object.
-     * @param method      The HTTP method to use (e.g., GET, POST).
-     * @param location    The endpoint location on the server.
-     * @param request     The request body to send (if any).
-     * @param response    The class type of the expected response.
-     * @param authToken   The authorization token (optional).
-     * @return The response received from the server.
-     * @throws InputException If there is an error with the request.
+     * @param method        the HTTP method (GET, POST, PUT, DELETE)
+     * @param fullPath          the target endpoint path
+     * @param httpRequest       the request body
+     * @param responseClass the expected class of the response
+     * @param auth      the authentication information (optional)
+     * @param <T>           the type of response expected
+     * @return a response of type T
+     * @throws InputException if an error occurs during the request
      */
-    private <T> T makeRequest(String method, String location, Object request, Class<T> response, String authToken) throws InputException {
+    private <T> T makeRequest(String method, String fullPath, Object httpRequest, Class<T> responseClass, Auth auth) throws InputException {
         try {
-            URL url = (new URI(serverUrl + location)).toURL();
-            HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
-            httpConnection.setRequestMethod(method);
-            httpConnection.setDoOutput(true);
-
-            if (authToken != null && !authToken.isEmpty()) {
-                httpConnection.setRequestProperty("Authorization", authToken);
+            URL url = (new URI(serverEndPoint + fullPath)).toURL();
+            HttpURLConnection http = (HttpURLConnection) url.openConnection();
+            http.setRequestMethod(method);
+            http.setDoOutput(true);
+            if (auth != null) {
+                http.addRequestProperty("Authorization", auth.authToken());
             }
-
-            writeBody(request, httpConnection);
-            httpConnection.connect();
-            throwIfNotSuccessful(httpConnection);
-            return readBody(httpConnection, response);
-
-        } catch (Exception e) {
-            throw new InputException(500, e.getMessage());
+            writeBody(httpRequest, http);
+            http.connect();
+            unsuccessfulTry(http);
+            return readBody(http, responseClass);
+        } catch (Exception exception) {
+            throw new InputException(500, exception.getMessage());
         }
     }
 
     /**
-     * Writes the request body to the connection.
+     * Writes the request as a JSON object to the output stream of the HTTP connection.
      *
-     * @param request       The request object.
-     * @param httpConnection The HttpURLConnection object.
-     * @throws IOException If an I/O error occurs.
+     * @param httpRequest the request object to be sent
+     * @param http    the HTTP connection
+     * @throws IOException if an error occurs during writing
      */
-    private static void writeBody(Object request, HttpURLConnection httpConnection) throws IOException {
-        if (request != null) {
-            httpConnection.addRequestProperty("Content-Type", "application/json");
-            String json = new Gson().toJson(request);
-            try (OutputStream body = httpConnection.getOutputStream()) {
-                body.write(json.getBytes());
+    private static void writeBody(Object httpRequest, HttpURLConnection http) throws IOException {
+        if (httpRequest != null) {
+            http.addRequestProperty("Content-Type", "application/json");
+            String reqData = new Gson().toJson(httpRequest);
+            try (OutputStream reqBody = http.getOutputStream()) {
+                reqBody.write(reqData.getBytes());
             }
         }
     }
 
     /**
-     * Reads the response body from the connection.
+     * Checks the HTTP status code and throws an exception if the request wasn't successful.
      *
-     * @param <T>             The type of the response object.
-     * @param httpConnection  The HttpURLConnection object.
-     * @param response        The class of the expected response.
-     * @return The response object parsed from the connection's input stream.
-     * @throws IOException If an I/O error occurs.
+     * @param http the HTTP connection
+     * @throws IOException    if an error occurs during obtaining the response code
+     * @throws InputException if the response status is not a success (i.e., not 2xx)
      */
-    private static <T> T readBody(HttpURLConnection httpConnection, Class<T> response) throws IOException {
-        T responseVal = null;
-        if (httpConnection.getContentLength() < 0) {
-            try (InputStream responseBody = httpConnection.getInputStream()) {
-                InputStreamReader reader = new InputStreamReader(responseBody);
-                if (response != null) {
-                    responseVal = new Gson().fromJson(reader, response);
-                }
-            }
-        }
-        return responseVal;
-    }
-
-    /**
-     * Throws an exception if the HTTP status code indicates failure.
-     *
-     * @param httpConnection The HttpURLConnection object.
-     * @throws InputException If the response indicates a failure.
-     * @throws IOException    If an I/O error occurs.
-     */
-    private void throwIfNotSuccessful(HttpURLConnection httpConnection) throws IOException, InputException {
-        int status = httpConnection.getResponseCode();
-        if (status / 100 != 2) {
-            String message;
-            switch (status) {
-                case 400 -> message = "Bad request! Verify syntax and retry.";
-                case 401 -> message = "Bad credentials provided. Retry.";
-                case 403 -> message = "Parameter already taken.";
-                default -> message = "Unknown Error " + status;
-            }
-            throw new InputException(status, SET_TEXT_COLOR_RED + message);
+    private void unsuccessfulTry(HttpURLConnection http) throws IOException, InputException {
+        int status = http.getResponseCode();
+        if (!isSuccessfulChecker(status)) {
+            throw new InputException(status, "FAILURE: " + status);
         }
     }
 
-    // Public Methods for Server Communication
-
     /**
-     * Registers a new user on the server.
+     * Reads the HTTP response body and deserializes it to the specified class.
      *
-     * @param jsonObject The JSON object containing user details.
-     * @return The response from the server.
-     * @throws InputException If there is an error with the request.
+     * @param http          the HTTP connection
+     * @param responseClass the class to deserialize response to
+     * @param <T>           the type of response expected
+     * @return an object of type T
+     * @throws IOException if an error occurs during reading the response
      */
-    public Response registerNewUser(JsonObject jsonObject) throws InputException {
-        return this.makeRequest("POST", "/user", jsonObject, Response.class, null);
+    private static <T> T readBody(HttpURLConnection http, Class<T> responseClass) throws IOException {
+        if (http.getContentLength() < 0 && responseClass != null) {
+            try (InputStream respBody = http.getInputStream(); InputStreamReader reader = new InputStreamReader(respBody)) {
+                return new Gson().fromJson(reader, responseClass);
+            }
+        }
+        return null;
     }
 
     /**
-     * Logs a user into the server.
+     * Determines if the HTTP status code indicates a successful request.
      *
-     * @param jsonObject The JSON object containing login details.
-     * @return The response from the server.
-     * @throws InputException If there is an error with the request.
+     * @param status the HTTP status code
+     * @return true if the status indicates success, false otherwise
      */
-    public Response loginUser(JsonObject jsonObject) throws InputException {
-        return this.makeRequest("POST", "/session", jsonObject, Response.class, null);
-    }
-
-    /**
-     * Logs a user out from the server.
-     *
-     * @param authToken The authorization token of the user.
-     * @return The response from the server.
-     * @throws InputException If there is an error with the request.
-     */
-    public Response logoutUser(String authToken) throws InputException {
-        return this.makeRequest("DELETE", "/session", null, Response.class, authToken);
-    }
-
-    /**
-     * Joins a game on the server.
-     *
-     * @param jsonObject The JSON object containing game details.
-     * @param authToken  The authorization token of the user.
-     * @return The response from the server.
-     * @throws InputException If there is an error with the request.
-     */
-    public Response joinGame(JsonObject jsonObject, String authToken) throws InputException {
-        return this.makeRequest("PUT", "/game", jsonObject, Response.class, authToken);
-    }
-
-    /**
-     * Creates a new game on the server.
-     *
-     * @param jsonObject The JSON object containing game details.
-     * @param authToken  The authorization token of the user.
-     * @return The response from the server.
-     * @throws InputException If there is an error with the request.
-     */
-    public Response createNewGame(JsonObject jsonObject, String authToken) throws InputException {
-        return this.makeRequest("POST", "/game", jsonObject, Response.class, authToken);
-    }
-
-    /**
-     * Lists all games on the server.
-     *
-     * @param authToken The authorization token of the user.
-     * @return The response from the server.
-     * @throws InputException If there is an error with the request.
-     */
-    public Response listAllGames(String authToken) throws InputException {
-        return this.makeRequest("GET", "/game", null, Response.class, authToken);
+    private boolean isSuccessfulChecker(int status) {
+        return status / 100 == 2;
     }
 }

@@ -73,11 +73,13 @@ public class ChessBoard {
         ChessBoard that = (ChessBoard) obj;
         return Arrays.deepEquals(squares, that.squares);
     }
-
     /**
      * Sets the board to the default starting board
      * (How the game of chess normally starts)
      */
+    public ChessPiece[][] getChessBoard() {
+        return squares;
+    }
 
     public void resetBoard() {
         squares = new ChessPiece[9][9];

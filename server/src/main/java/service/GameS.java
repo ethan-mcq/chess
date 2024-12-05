@@ -7,7 +7,6 @@ import model.*;
  * Service class that handles game-related operations.
  */
 public class GameS extends BaseS {
-
     /**
      * Constructs a new game service with the given Data access object.
      *
@@ -62,6 +61,37 @@ public class GameS extends BaseS {
         GameDao gameDataAccess = this.dataAccess.fetchClientData(GameDao.class);
         return gameDataAccess.joinGame(join);
     }
+
+    public void updateGame (Integer gameID, GameData game) throws DataAccessException {
+        GameDao gameDataAccess = this.dataAccess.fetchClientData(GameDao.class);
+        gameDataAccess.updateGame(gameID, game);
+    }
+
+    public void leaveGame(AuthS authS, String token, Integer gameID) throws DataAccessException {
+        GameDao gameDataAccess = this.dataAccess.fetchClientData(GameDao.class);
+        Auth user = authS.authenticate(token);
+        GameData currentGame = gameDataAccess.getGames(gameID);
+
+        String newBlackUsername = currentGame.blackUsername();
+        String newWhiteUsername = currentGame.whiteUsername();
+
+        if (user.username().equals(currentGame.blackUsername())) {
+            newBlackUsername = null;
+        } else if (user.username().equals(currentGame.whiteUsername())) {
+            newWhiteUsername = null;
+        }
+
+        GameData updatedGame = new GameData(
+                currentGame.gameID(),
+                currentGame.gameName(),
+                newWhiteUsername,
+                newBlackUsername,
+                currentGame.game()
+        );
+
+        gameDataAccess.updateGame(gameID, updatedGame);
+    }
+
 
     /**
      * Deletes all games.
